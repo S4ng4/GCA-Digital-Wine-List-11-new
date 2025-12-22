@@ -107,28 +107,28 @@ class WineListApp {
                 return hasValidRegion && hasValidName && hasValidProducer && hasValidPrice && isNotSangriaOrCocktail;
             });
             
-        this.filteredWines = [...this.wines];
-        console.log(`Loaded ${this.wines.length} valid wines (filtered out corrupted data)`);
-        
-        if (this.wines.length === 0) {
-            this.showError('No wines found in database. Please check the data file.');
-            return;
-        }
-        
-        // Load wine images mapping
-        await this.loadWineImages();
-        
-        // Load food pairings data
-        await this.loadFoodPairingsData();
-        
-        // Debug: Log wine family distribution
-        this.logWineFamilyDistribution();
-        
-        // General checkup
-        this.performGeneralCheckup();
-        
-        // Test all regions
-        this.testAllRegions();
+            this.filteredWines = [...this.wines];
+            console.log(`Loaded ${this.wines.length} valid wines (filtered out corrupted data)`);
+            
+            if (this.wines.length === 0) {
+                this.showError('No wines found in database. Please check the data file.');
+                return;
+            }
+            
+            // Load wine images mapping
+            await this.loadWineImages();
+            
+            // Load food pairings data
+            await this.loadFoodPairingsData();
+            
+            // Debug: Log wine family distribution
+            this.logWineFamilyDistribution();
+            
+            // General checkup
+            this.performGeneralCheckup();
+            
+            // Test all regions
+            this.testAllRegions();
         } catch (error) {
             console.error('❌ Error loading wine data:', error);
             console.error('📍 Attempted path:', winesPath);
@@ -704,20 +704,23 @@ class WineListApp {
     }
 
     renderWinesPage() {
+        // If no region is specified, show all wines (filtered by type and search if present)
         if (!this.currentFilters.region) {
-            console.error('No region specified for wines page');
-            return;
+            console.log('No region specified for wines page, showing all wines');
+        } else {
+            console.log(`Rendering wines page for region: ${this.currentFilters.region}, type: ${this.currentFilters.type || 'all'}`);
         }
 
-        console.log(`Rendering wines page for region: ${this.currentFilters.region}, type: ${this.currentFilters.type || 'all'}`);
-
-        // Filter wines by region (and type if specified) and search if present
+        // Filter wines by region (if specified), type (if specified), and search (if present)
         this.filteredWines = this.wines.filter(wine => {
             // Use normalized region comparison to handle variations
-            const normalizedWineRegion = this.normalizeRegionName(wine.region);
-            const normalizedFilterRegion = this.normalizeRegionName(this.currentFilters.region);
+            let matchesRegion = true;
+            if (this.currentFilters.region) {
+                const normalizedWineRegion = this.normalizeRegionName(wine.region);
+                const normalizedFilterRegion = this.normalizeRegionName(this.currentFilters.region);
+                matchesRegion = normalizedWineRegion === normalizedFilterRegion;
+            }
             
-            const matchesRegion = normalizedWineRegion === normalizedFilterRegion;
             const matchesType = !this.currentFilters.type || this.wineMatchesFamily(wine, this.currentFilters.type);
             const matchesSearch = !this.currentFilters.search || (
                 (wine.wine_name && wine.wine_name.toLowerCase().includes(this.currentFilters.search)) ||
@@ -729,7 +732,11 @@ class WineListApp {
             return matchesRegion && matchesType && matchesSearch;
         });
 
-        console.log(`Found ${this.filteredWines.length} wines for ${this.currentFilters.region}`);
+        if (this.currentFilters.region) {
+            console.log(`Found ${this.filteredWines.length} wines for ${this.currentFilters.region}`);
+        } else {
+            console.log(`Found ${this.filteredWines.length} wines (all regions)`);
+        }
 
         // Add wine type badge if filtering by type
         if (this.currentFilters.type) {
