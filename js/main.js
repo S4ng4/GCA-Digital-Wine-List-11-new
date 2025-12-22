@@ -2,18 +2,33 @@
 
 // Get base path for GitHub Pages (automatically detects repo name)
 function getBasePath() {
-    // Get the pathname (e.g., "/GCA-Digital-Wine-List-10/" or "/")
+    // Get the pathname (e.g., "/GCA-Digital-Wine-List-11-new/wine-details.html" or "/")
     const pathname = window.location.pathname;
     
-    // If we're at root (/) or any HTML file, return empty string
-    if (pathname === '/' || pathname.endsWith('.html')) {
+    // If we're at root (/), return empty string
+    if (pathname === '/') {
         return '';
     }
     
-    // Extract repo name from pathname (e.g., "/GCA-Digital-Wine-List-10/" -> "/GCA-Digital-Wine-List-10")
+    // Extract repo name from pathname (e.g., "/GCA-Digital-Wine-List-11-new/wine-details.html" -> "/GCA-Digital-Wine-List-11-new")
+    // Match the first segment of the path that is not an HTML file
     const match = pathname.match(/^\/([^\/]+)/);
-    if (match && !match[1].endsWith('.html')) {
-        return '/' + match[1];
+    if (match) {
+        const firstSegment = match[1];
+        // If the first segment is not an HTML file, it's likely the repo name
+        if (!firstSegment.endsWith('.html')) {
+            return '/' + firstSegment;
+        }
+    }
+    
+    // Fallback: check if we're on GitHub Pages by looking at the hostname
+    // If hostname contains github.io, try to extract repo name from pathname
+    if (window.location.hostname.includes('github.io')) {
+        // Split pathname and get the first non-empty segment
+        const segments = pathname.split('/').filter(s => s && !s.endsWith('.html'));
+        if (segments.length > 0) {
+            return '/' + segments[0];
+        }
     }
     
     return '';
