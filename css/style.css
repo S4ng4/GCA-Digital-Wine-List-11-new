@@ -163,180 +163,18 @@
   .ring-fg, .progress-line span, .gold-bokeh span { animation: none !important; transition: none !important; }
 }
 
-/* ==================== TUTORIAL OVERLAY ==================== */
-.tutorial-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-
-.tutorial-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.tutorial-content {
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
-    border: 2px solid rgba(212, 175, 55, 0.4);
-    border-radius: 16px;
-    padding: 2rem;
-    max-width: 90%;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(212, 175, 55, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    position: relative;
-    animation: tutorialSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes tutorialSlideIn {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.tutorial-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-.tutorial-title {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    color: var(--gold);
-    font-weight: 600;
-    margin: 0;
-    letter-spacing: 0.5px;
-}
-
-.tutorial-close {
-    background: transparent;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    color: var(--gold);
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.tutorial-close:hover {
-    background: rgba(212, 175, 55, 0.1);
-    border-color: rgba(212, 175, 55, 0.5);
-    transform: scale(1.1);
-}
-
-.tutorial-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.tutorial-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 1rem;
-    background: rgba(212, 175, 55, 0.05);
-    border-radius: 12px;
-    border: 1px solid rgba(212, 175, 55, 0.15);
-    transition: all 0.3s ease;
-}
-
-.tutorial-step:hover {
-    background: rgba(212, 175, 55, 0.08);
-    border-color: rgba(212, 175, 55, 0.3);
-}
-
-.tutorial-step-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(212, 175, 55, 0.15);
-    border-radius: 50%;
-    margin-bottom: 0.75rem;
-    color: var(--gold);
-    font-size: 1.5rem;
-}
-
-.tutorial-step-title {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    color: var(--gold);
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
-    letter-spacing: 0.3px;
-}
-
-.tutorial-step-description {
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    color: rgba(245, 245, 240, 0.8);
-    line-height: 1.5;
-    margin: 0;
-}
-
-.tutorial-footer {
-    display: flex;
-    justify-content: center;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-.tutorial-skip {
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    color: var(--gold);
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.tutorial-skip:hover {
-    background: rgba(212, 175, 55, 0.2);
-    border-color: rgba(212, 175, 55, 0.5);
-    transform: translateY(-2px);
-}
-
-/* Glow effects for highlighted elements */
+/* ==================== TUTORIAL GLOW (MINIMAL) ==================== */
+/* Minimal glow borders for tutorial - no overlay */
 .tutorial-glow {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    border-radius: 12px;
+    border-radius: 8px;
     opacity: 0;
-    transition: opacity 0.5s ease;
-    animation: tutorialGlowPulse 2s ease-in-out infinite;
+    transition: opacity 0.6s ease;
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    background: transparent;
+    animation: tutorialGlowPulse 2.5s ease-in-out infinite;
 }
 
 .tutorial-glow.active {
@@ -345,62 +183,23 @@
 
 @keyframes tutorialGlowPulse {
     0%, 100% {
-        box-shadow: 0 0 20px rgba(212, 175, 55, 0.4),
-                    0 0 40px rgba(212, 175, 55, 0.3),
-                    0 0 60px rgba(212, 175, 55, 0.2);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3),
+                    0 0 30px rgba(212, 175, 55, 0.2);
+        border-color: rgba(212, 175, 55, 0.5);
     }
     50% {
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.6),
-                    0 0 60px rgba(212, 175, 55, 0.4),
-                    0 0 90px rgba(212, 175, 55, 0.3);
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.5),
+                    0 0 50px rgba(212, 175, 55, 0.3);
+        border-color: rgba(212, 175, 55, 0.7);
     }
 }
 
 .tutorial-glow-search {
-    border: 3px solid rgba(212, 175, 55, 0.6);
-    background: rgba(212, 175, 55, 0.05);
+    border-radius: 10px;
 }
 
 .tutorial-glow-chips {
-    border: 3px solid rgba(212, 175, 55, 0.6);
-    background: rgba(212, 175, 55, 0.05);
-}
-
-/* Highlight elements when tutorial is active */
-.tutorial-overlay.active ~ .main-layout .mobile-search-bar-container,
-.tutorial-overlay.active ~ .main-layout .mobile-wine-type-chip {
-    position: relative;
-    z-index: 10001;
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-    .tutorial-content {
-        padding: 1.5rem;
-        max-width: 95%;
-    }
-    
-    .tutorial-title {
-        font-size: 1.25rem;
-    }
-    
-    .tutorial-step {
-        padding: 0.75rem;
-    }
-    
-    .tutorial-step-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.25rem;
-    }
-    
-    .tutorial-step-title {
-        font-size: 1rem;
-    }
-    
-    .tutorial-step-description {
-        font-size: 0.9rem;
-    }
+    border-radius: 8px;
 }
 
 /* Gran Caffè L'Aquila - Digital Wine List Styles */

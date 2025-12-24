@@ -7657,8 +7657,8 @@ if (document.readyState === 'loading') {
     initInteractiveMap();
 }
 
-/* ==================== TUTORIAL OVERLAY ==================== */
-(function initTutorial() {
+/* ==================== TUTORIAL GLOW (MINIMAL) ==================== */
+(function initTutorialGlow() {
     // Check if tutorial was already shown
     const tutorialShown = localStorage.getItem('tutorialShown') === 'true';
     if (tutorialShown) {
@@ -7670,33 +7670,22 @@ if (document.readyState === 'loading') {
         return;
     }
 
-    const tutorialOverlay = document.getElementById('tutorialOverlay');
-    const tutorialClose = document.getElementById('tutorialClose');
-    const tutorialSkip = document.getElementById('tutorialSkip');
     const tutorialGlowSearch = document.getElementById('tutorialGlowSearch');
     const tutorialGlowChips = document.getElementById('tutorialGlowChips');
 
-    if (!tutorialOverlay) {
+    if (!tutorialGlowSearch || !tutorialGlowChips) {
         return;
     }
 
-    let tutorialTimeout;
     let glowTimeout;
 
-    function showTutorial() {
-        tutorialOverlay.style.display = 'flex';
-        setTimeout(() => {
-            tutorialOverlay.classList.add('active');
-            // Start highlighting elements after a short delay
-            setTimeout(() => {
-                highlightElements();
-            }, 500);
-        }, 100);
-
-        // Auto-hide after 8 seconds
-        tutorialTimeout = setTimeout(() => {
-            hideTutorial();
-        }, 8000);
+    function showGlows() {
+        highlightElements();
+        
+        // Auto-hide after 5 seconds
+        glowTimeout = setTimeout(() => {
+            hideGlows();
+        }, 5000);
     }
 
     function highlightElements() {
@@ -7705,52 +7694,50 @@ if (document.readyState === 'loading') {
         if (searchBar) {
             const rect = searchBar.getBoundingClientRect();
             tutorialGlowSearch.style.display = 'block';
-            tutorialGlowSearch.style.left = `${rect.left - 10}px`;
-            tutorialGlowSearch.style.top = `${rect.top - 10}px`;
-            tutorialGlowSearch.style.width = `${rect.width + 20}px`;
-            tutorialGlowSearch.style.height = `${rect.height + 20}px`;
-            tutorialGlowSearch.classList.add('active');
+            tutorialGlowSearch.style.left = `${rect.left - 8}px`;
+            tutorialGlowSearch.style.top = `${rect.top - 8}px`;
+            tutorialGlowSearch.style.width = `${rect.width + 16}px`;
+            tutorialGlowSearch.style.height = `${rect.height + 16}px`;
+            setTimeout(() => {
+                tutorialGlowSearch.classList.add('active');
+            }, 100);
         }
 
         // Highlight wine type chips
-        const wineTypeChips = document.querySelectorAll('.mobile-wine-type-chip');
-        if (wineTypeChips.length > 0) {
-            const firstChip = wineTypeChips[0];
-            const lastChip = wineTypeChips[wineTypeChips.length - 1];
-            const firstRect = firstChip.getBoundingClientRect();
-            const lastRect = lastChip.getBoundingClientRect();
-            
-            const chipsContainer = document.getElementById('mobileWineTypeSelector');
-            if (chipsContainer) {
-                const containerRect = chipsContainer.getBoundingClientRect();
-                tutorialGlowChips.style.display = 'block';
-                tutorialGlowChips.style.left = `${containerRect.left - 10}px`;
-                tutorialGlowChips.style.top = `${containerRect.top - 10}px`;
-                tutorialGlowChips.style.width = `${containerRect.width + 20}px`;
-                tutorialGlowChips.style.height = `${containerRect.height + 20}px`;
+        const chipsContainer = document.getElementById('mobileWineTypeSelector');
+        if (chipsContainer) {
+            const rect = chipsContainer.getBoundingClientRect();
+            tutorialGlowChips.style.display = 'block';
+            tutorialGlowChips.style.left = `${rect.left - 8}px`;
+            tutorialGlowChips.style.top = `${rect.top - 8}px`;
+            tutorialGlowChips.style.width = `${rect.width + 16}px`;
+            tutorialGlowChips.style.height = `${rect.height + 16}px`;
+            setTimeout(() => {
                 tutorialGlowChips.classList.add('active');
-            }
+            }, 300);
         }
 
         // Update glow positions on scroll/resize
         const updateGlowPositions = () => {
-            if (tutorialOverlay.classList.contains('active')) {
+            if (tutorialGlowSearch.classList.contains('active')) {
                 const searchBar = document.getElementById('mobileSearchBarContainer');
-                if (searchBar && tutorialGlowSearch.classList.contains('active')) {
+                if (searchBar) {
                     const rect = searchBar.getBoundingClientRect();
-                    tutorialGlowSearch.style.left = `${rect.left - 10}px`;
-                    tutorialGlowSearch.style.top = `${rect.top - 10}px`;
-                    tutorialGlowSearch.style.width = `${rect.width + 20}px`;
-                    tutorialGlowSearch.style.height = `${rect.height + 20}px`;
+                    tutorialGlowSearch.style.left = `${rect.left - 8}px`;
+                    tutorialGlowSearch.style.top = `${rect.top - 8}px`;
+                    tutorialGlowSearch.style.width = `${rect.width + 16}px`;
+                    tutorialGlowSearch.style.height = `${rect.height + 16}px`;
                 }
+            }
 
+            if (tutorialGlowChips.classList.contains('active')) {
                 const chipsContainer = document.getElementById('mobileWineTypeSelector');
-                if (chipsContainer && tutorialGlowChips.classList.contains('active')) {
+                if (chipsContainer) {
                     const rect = chipsContainer.getBoundingClientRect();
-                    tutorialGlowChips.style.left = `${rect.left - 10}px`;
-                    tutorialGlowChips.style.top = `${rect.top - 10}px`;
-                    tutorialGlowChips.style.width = `${rect.width + 20}px`;
-                    tutorialGlowChips.style.height = `${rect.height + 20}px`;
+                    tutorialGlowChips.style.left = `${rect.left - 8}px`;
+                    tutorialGlowChips.style.top = `${rect.top - 8}px`;
+                    tutorialGlowChips.style.width = `${rect.width + 16}px`;
+                    tutorialGlowChips.style.height = `${rect.height + 16}px`;
                 }
             }
         };
@@ -7759,56 +7746,30 @@ if (document.readyState === 'loading') {
         window.addEventListener('resize', updateGlowPositions);
     }
 
-    function hideTutorial() {
-        tutorialOverlay.classList.remove('active');
+    function hideGlows() {
         tutorialGlowSearch.classList.remove('active');
         tutorialGlowChips.classList.remove('active');
         
         setTimeout(() => {
-            tutorialOverlay.style.display = 'none';
             tutorialGlowSearch.style.display = 'none';
             tutorialGlowChips.style.display = 'none';
-        }, 400);
+        }, 600);
 
         // Mark tutorial as shown
         localStorage.setItem('tutorialShown', 'true');
     }
-
-    function closeTutorial() {
-        if (tutorialTimeout) {
-            clearTimeout(tutorialTimeout);
-        }
-        hideTutorial();
-    }
-
-    // Event listeners
-    if (tutorialClose) {
-        tutorialClose.addEventListener('click', closeTutorial);
-    }
-
-    if (tutorialSkip) {
-        tutorialSkip.addEventListener('click', closeTutorial);
-    }
-
-    // Close on overlay click (outside content)
-    tutorialOverlay.addEventListener('click', (e) => {
-        if (e.target === tutorialOverlay) {
-            closeTutorial();
-        }
-    });
 
     // Wait for page to be fully loaded and elements to be rendered
     function waitForElements() {
         const searchBar = document.getElementById('mobileSearchBarContainer');
         const wineTypeSelector = document.getElementById('mobileWineTypeSelector');
         
-        // Check if elements exist and are visible
         if (searchBar && wineTypeSelector) {
-            // Wait a bit more for chips to be rendered
+            // Wait for chips to be rendered
             setTimeout(() => {
                 const chips = document.querySelectorAll('.mobile-wine-type-chip');
                 if (chips.length > 0 || window.innerWidth > 768) {
-                    // Show tutorial after loading overlay is gone
+                    // Show glows after loading overlay is gone
                     const loadingOverlay = document.getElementById('loadingOverlay');
                     if (loadingOverlay && !loadingOverlay.classList.contains('is-hidden')) {
                         // Wait for loading overlay to disappear
@@ -7816,29 +7777,29 @@ if (document.readyState === 'loading') {
                             if (loadingOverlay.classList.contains('is-hidden') || !document.body.contains(loadingOverlay)) {
                                 clearInterval(checkLoading);
                                 setTimeout(() => {
-                                    showTutorial();
-                                }, 1000);
+                                    showGlows();
+                                }, 800);
                             }
                         }, 100);
                         
-                        // Fallback: show tutorial after 6 seconds if loading overlay is still there
+                        // Fallback: show glows after 5 seconds
                         setTimeout(() => {
                             clearInterval(checkLoading);
-                            if (tutorialOverlay.style.display === 'none' || !tutorialOverlay.classList.contains('active')) {
-                                showTutorial();
+                            if (!tutorialGlowSearch.classList.contains('active')) {
+                                showGlows();
                             }
-                        }, 6000);
+                        }, 5000);
                     } else {
-                        // Loading overlay already gone, show tutorial after a short delay
+                        // Loading overlay already gone, show glows after a short delay
                         setTimeout(() => {
-                            showTutorial();
-                        }, 1500);
+                            showGlows();
+                        }, 1000);
                     }
                 } else {
                     // Elements not ready yet, try again
                     setTimeout(waitForElements, 500);
                 }
-            }, 1000);
+            }, 800);
         } else {
             // Elements not ready yet, try again
             setTimeout(waitForElements, 500);
