@@ -7674,47 +7674,66 @@ if (document.readyState === 'loading') {
     const tutorialGlowChips = document.getElementById('tutorialGlowChips');
 
     if (!tutorialGlowSearch || !tutorialGlowChips) {
+        console.warn('Tutorial glow elements not found');
         return;
     }
 
     let glowTimeout;
+    let retryCount = 0;
+    const maxRetries = 20;
 
     function showGlows() {
-        highlightElements();
-        
-        // Auto-hide after 5 seconds
-        glowTimeout = setTimeout(() => {
-            hideGlows();
-        }, 5000);
+        const highlighted = highlightElements();
+        if (highlighted) {
+            // Auto-hide after 5 seconds
+            glowTimeout = setTimeout(() => {
+                hideGlows();
+            }, 5000);
+        } else {
+            // Retry if elements not found
+            if (retryCount < maxRetries) {
+                retryCount++;
+                setTimeout(showGlows, 500);
+            }
+        }
     }
 
     function highlightElements() {
+        let highlightedAny = false;
+
         // Highlight search bar
         const searchBar = document.getElementById('mobileSearchBarContainer');
-        if (searchBar) {
+        if (searchBar && searchBar.offsetHeight > 0) {
             const rect = searchBar.getBoundingClientRect();
-            tutorialGlowSearch.style.display = 'block';
-            tutorialGlowSearch.style.left = `${rect.left - 8}px`;
-            tutorialGlowSearch.style.top = `${rect.top - 8}px`;
-            tutorialGlowSearch.style.width = `${rect.width + 16}px`;
-            tutorialGlowSearch.style.height = `${rect.height + 16}px`;
-            setTimeout(() => {
-                tutorialGlowSearch.classList.add('active');
-            }, 100);
+            if (rect.width > 0 && rect.height > 0) {
+                tutorialGlowSearch.style.display = 'block';
+                tutorialGlowSearch.style.left = `${rect.left - 8}px`;
+                tutorialGlowSearch.style.top = `${rect.top - 8}px`;
+                tutorialGlowSearch.style.width = `${rect.width + 16}px`;
+                tutorialGlowSearch.style.height = `${rect.height + 16}px`;
+                setTimeout(() => {
+                    tutorialGlowSearch.classList.add('active');
+                }, 100);
+                highlightedAny = true;
+            }
         }
 
         // Highlight wine type chips
         const chipsContainer = document.getElementById('mobileWineTypeSelector');
-        if (chipsContainer) {
+        const chips = document.querySelectorAll('.mobile-wine-type-chip');
+        if (chipsContainer && chips.length > 0 && chipsContainer.offsetHeight > 0) {
             const rect = chipsContainer.getBoundingClientRect();
-            tutorialGlowChips.style.display = 'block';
-            tutorialGlowChips.style.left = `${rect.left - 8}px`;
-            tutorialGlowChips.style.top = `${rect.top - 8}px`;
-            tutorialGlowChips.style.width = `${rect.width + 16}px`;
-            tutorialGlowChips.style.height = `${rect.height + 16}px`;
-            setTimeout(() => {
-                tutorialGlowChips.classList.add('active');
-            }, 300);
+            if (rect.width > 0 && rect.height > 0) {
+                tutorialGlowChips.style.display = 'block';
+                tutorialGlowChips.style.left = `${rect.left - 8}px`;
+                tutorialGlowChips.style.top = `${rect.top - 8}px`;
+                tutorialGlowChips.style.width = `${rect.width + 16}px`;
+                tutorialGlowChips.style.height = `${rect.height + 16}px`;
+                setTimeout(() => {
+                    tutorialGlowChips.classList.add('active');
+                }, 300);
+                highlightedAny = true;
+            }
         }
 
         // Update glow positions on scroll/resize
@@ -7744,6 +7763,8 @@ if (document.readyState === 'loading') {
 
         window.addEventListener('scroll', updateGlowPositions);
         window.addEventListener('resize', updateGlowPositions);
+
+        return highlightedAny;
     }
 
     function hideGlows() {
@@ -7763,56 +7784,75 @@ if (document.readyState === 'loading') {
     function waitForElements() {
         const searchBar = document.getElementById('mobileSearchBarContainer');
         const wineTypeSelector = document.getElementById('mobileWineTypeSelector');
+        const chips = document.querySelectorAll('.mobile-wine-type-chip');
         
-        if (searchBar && wineTypeSelector) {
-            // Wait for chips to be rendered
-            setTimeout(() => {
-                const chips = document.querySelectorAll('.mobile-wine-type-chip');
-                if (chips.length > 0 || window.innerWidth > 768) {
-                    // Show glows after loading overlay is gone
-                    const loadingOverlay = document.getElementById('loadingOverlay');
-                    if (loadingOverlay && !loadingOverlay.classList.contains('is-hidden')) {
-                        // Wait for loading overlay to disappear
-                        const checkLoading = setInterval(() => {
-                            if (loadingOverlay.classList.contains('is-hidden') || !document.body.contains(loadingOverlay)) {
-                                clearInterval(checkLoading);
-                                setTimeout(() => {
-                                    showGlows();
-                                }, 800);
-                            }
-                        }, 100);
-                        
-                        // Fallback: show glows after 5 seconds
-                        setTimeout(() => {
-                            clearInterval(checkLoading);
-                            if (!tutorialGlowSearch.classList.contains('active')) {
-                                showGlows();
-                            }
-                        }, 5000);
-                    } else {
-                        // Loading overlay already gone, show glows after a short delay
+        // Check if elements exist and are visible
+        const hasSearchBar = searchBar && searchBar.offsetHeight > 0;
+        const hasChips = wineTypeSelector && chips.length > 0 && wineTypeSelector.offsetHeight > 0;
+        const isDesktop = window.innerWidth > 768;
+        
+        if (hasSearchBar && (hasChips || isDesktop)) {
+            // Show glows after loading overlay is gone
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay && !loadingOverlay.classList.contains('is-hidden')) {
+                // Wait for loading overlay to disappear
+                const checkLoading = setInterval(() => {
+                    if (loadingOverlay.classList.contains('is-hidden') || !document.body.contains(loadingOverlay)) {
+                        clearInterval(checkLoading);
                         setTimeout(() => {
                             showGlows();
-                        }, 1000);
+                        }, 1200);
                     }
-                } else {
-                    // Elements not ready yet, try again
-                    setTimeout(waitForElements, 500);
-                }
-            }, 800);
+                }, 100);
+                
+                // Fallback: show glows after 6 seconds
+                setTimeout(() => {
+                    clearInterval(checkLoading);
+                    if (!tutorialGlowSearch.classList.contains('active')) {
+                        showGlows();
+                    }
+                }, 6000);
+            } else {
+                // Loading overlay already gone, show glows after a delay
+                setTimeout(() => {
+                    showGlows();
+                }, 1500);
+            }
         } else {
-            // Elements not ready yet, try again
-            setTimeout(waitForElements, 500);
+            // Elements not ready yet, try again (max 10 seconds)
+            if (retryCount < maxRetries) {
+                retryCount++;
+                setTimeout(waitForElements, 500);
+            }
+        }
+    }
+
+    // Wait for wineApp to be ready first
+    function startTutorial() {
+        if (window.wineApp && window.wineApp.wines && window.wineApp.wines.length > 0) {
+            setTimeout(waitForElements, 1000);
+        } else {
+            // Listen for wineAppReady event
+            window.addEventListener('wineAppReady', () => {
+                setTimeout(waitForElements, 1500);
+            }, { once: true });
+            
+            // Fallback: start after 3 seconds
+            setTimeout(() => {
+                if (!tutorialGlowSearch.classList.contains('active')) {
+                    waitForElements();
+                }
+            }, 3000);
         }
     }
 
     // Start waiting for elements
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(waitForElements, 1000);
+            setTimeout(startTutorial, 500);
         });
     } else {
-        setTimeout(waitForElements, 1000);
+        setTimeout(startTutorial, 500);
     }
 })();
 
