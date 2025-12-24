@@ -163,49 +163,6 @@
   .ring-fg, .progress-line span, .gold-bokeh span { animation: none !important; transition: none !important; }
 }
 
-/* ==================== TUTORIAL GLOW (MINIMAL) ==================== */
-/* Minimal glow borders for tutorial - no overlay */
-.tutorial-glow {
-    position: fixed;
-    pointer-events: none;
-    z-index: 10000;
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-    border: 2px solid rgba(212, 175, 55, 0.5);
-    background: transparent;
-    display: none;
-    animation: tutorialGlowPulse 2.5s ease-in-out infinite;
-}
-
-.tutorial-glow.active {
-    opacity: 1;
-    display: block;
-}
-
-@keyframes tutorialGlowPulse {
-    0%, 100% {
-        box-shadow: 0 0 15px rgba(212, 175, 55, 0.4),
-                    0 0 30px rgba(212, 175, 55, 0.3),
-                    0 0 45px rgba(212, 175, 55, 0.2);
-        border-color: rgba(212, 175, 55, 0.6);
-    }
-    50% {
-        box-shadow: 0 0 25px rgba(212, 175, 55, 0.6),
-                    0 0 50px rgba(212, 175, 55, 0.4),
-                    0 0 75px rgba(212, 175, 55, 0.3);
-        border-color: rgba(212, 175, 55, 0.8);
-    }
-}
-
-.tutorial-glow-search {
-    border-radius: 10px;
-}
-
-.tutorial-glow-chips {
-    border-radius: 8px;
-}
-
 /* Gran Caffè L'Aquila - Digital Wine List Styles */
 
 /* Reset and Base Styles */
@@ -4525,6 +4482,19 @@ body:not(.home-page) .luxury-container {
 }
 
 /* ==================== SEARCH BAR ==================== */
+@keyframes glow-border-search {
+    0%, 100% {
+        border-color: rgba(212, 175, 55, 0.3);
+        box-shadow: 0 0 0 0 rgba(248, 248, 240, 0),
+                    0 0 0 0 rgba(248, 248, 240, 0);
+    }
+    50% {
+        border-color: rgba(248, 248, 240, 0.8);
+        box-shadow: 0 0 10px 2px rgba(248, 248, 240, 0.8),
+                    0 0 20px 4px rgba(248, 248, 240, 0.4);
+    }
+}
+
 .search-bar-container {
     /* Glassmorphism effect */
     background: rgba(10, 10, 10, 0.55);
@@ -4570,36 +4540,30 @@ body:not(.home-page) .luxury-container {
     color: var(--light);
     font-family: var(--font-body);
     font-size: 0.95rem;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease;
     letter-spacing: 0.4px;
+    animation: glow-border-search 7s ease-in-out 1;
 }
 
 .search-input:focus {
     outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
     background: rgba(26, 26, 26, 0.95);
 }
 
 .search-input:not(:placeholder-shown) {
-    border-color: rgba(212, 175, 55, 0.5);
     background: rgba(26, 26, 26, 0.9);
 }
 
 .search-input:not(:placeholder-shown):focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    background: rgba(26, 26, 26, 0.95);
 }
 
 .search-input.search-active {
-    border-color: rgba(212, 175, 55, 0.6);
     background: rgba(26, 26, 26, 0.95);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
 }
 
 .search-input.search-active:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+    background: rgba(26, 26, 26, 0.95);
 }
 
 .search-input::placeholder {
@@ -6854,13 +6818,13 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         color: rgba(245, 245, 240, 0.9);
         font-size: 0.95rem;
         font-family: var(--font-body);
-        transition: all 0.3s;
+        transition: background 0.3s;
+        animation: glow-border-search 7s ease-in-out 1;
     }
 
     .mobile-search-input:focus {
         outline: none;
         background: rgba(26, 26, 26, 1);
-        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
     }
 
     .mobile-filter-buttons {
@@ -7020,6 +6984,21 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         border-radius: 2px;
     }
 
+    @keyframes glow-border {
+        0%, 100% {
+            border-color: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 0 0 rgba(212, 175, 55, 0),
+                        0 0 0 0 rgba(212, 175, 55, 0),
+                        0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        50% {
+            border-color: rgba(212, 175, 55, 0.8);
+            box-shadow: 0 0 10px 2px rgba(212, 175, 55, 0.8),
+                        0 0 20px 4px rgba(212, 175, 55, 0.4),
+                        0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+    }
+
     .mobile-wine-type-chip {
         flex: 0 0 auto;
         display: flex;
@@ -7032,7 +7011,7 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         border: 0.5px solid rgba(212, 175, 55, 0.2);
         border-radius: 6px;
         cursor: pointer;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         width: 58px;
         min-height: 60px; /* Aumentato per permettere testo su più righe */
         position: relative;
@@ -7040,6 +7019,7 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        animation: glow-border 7s ease-in-out infinite;
     }
     
     /* Assicura che il primo chip sia visibile */
@@ -7071,11 +7051,12 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
 
     .mobile-wine-type-chip.active {
         background: rgba(212, 175, 55, 0.15);
+        transform: translateX(2px);
+        animation: none; /* Ferma l'animazione quando la chip è attiva */
         border-color: rgba(212, 175, 55, 0.5);
         box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25),
                     0 2px 8px rgba(212, 175, 55, 0.15),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        transform: translateX(2px);
+                    0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
     .mobile-wine-type-icon {
@@ -8282,11 +8263,12 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
     
     /* Improve mobile wine type selector transitions */
     .mobile-wine-type-chip {
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .mobile-wine-type-chip.active {
         transform: translateY(-1px) scale(1.02);
+        animation: none; /* Ferma l'animazione quando la chip è attiva */
     }
 }
 
