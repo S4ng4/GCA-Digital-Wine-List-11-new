@@ -40,6 +40,40 @@
             </div>
         </div>
     </div>
+    
+    <!-- Tutorial Overlay -->
+    <div id="tutorialOverlay" class="tutorial-overlay" style="display: none;" aria-hidden="true">
+        <div class="tutorial-content">
+            <div class="tutorial-header">
+                <h2 class="tutorial-title">Benvenuto nella Wine List</h2>
+                <button class="tutorial-close" id="tutorialClose" aria-label="Chiudi tutorial">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="tutorial-steps">
+                <div class="tutorial-step" id="tutorialStep1">
+                    <div class="tutorial-step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="tutorial-step-title">Cerca i Vini</h3>
+                    <p class="tutorial-step-description">Usa la barra di ricerca per trovare vini per nome, produttore, varietà o regione</p>
+                </div>
+                <div class="tutorial-step" id="tutorialStep2">
+                    <div class="tutorial-step-icon">
+                        <i class="fas fa-wine-glass"></i>
+                    </div>
+                    <h3 class="tutorial-step-title">Filtra per Tipo</h3>
+                    <p class="tutorial-step-description">Tocca i chip dei tipi di vino per filtrare la selezione e vedere le regioni disponibili</p>
+                </div>
+            </div>
+            <div class="tutorial-footer">
+                <button class="tutorial-skip" id="tutorialSkip">Salta</button>
+            </div>
+        </div>
+        <!-- Glow effects for highlighted elements -->
+        <div class="tutorial-glow tutorial-glow-search" id="tutorialGlowSearch"></div>
+        <div class="tutorial-glow tutorial-glow-chips" id="tutorialGlowChips"></div>
+    </div>
             
     <!-- Mobile Menu Overlay -->
     <div class="mobile-overlay" id="mobileOverlay"></div>
