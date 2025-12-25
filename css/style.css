@@ -139,7 +139,7 @@
 .countdown-ring { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
 .countdown-ring svg { width: clamp(300px, 65vw, 1100px); height: auto; }
 .ring-bg { fill: none; stroke: rgba(212,175,55,0.22); stroke-width: 2; }
-.ring-fg { fill: none; stroke: url(#goldGrad); stroke-width: 2; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; stroke-dasharray: 339.292; stroke-dashoffset: 0; }
+.ring-fg { fill: none; stroke: url(#goldGrad); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transform: rotate(-90deg); transform-origin: 50% 50%; stroke-dasharray: 411.4; stroke-dashoffset: 0; }
 
 /* removed progress line and tip */
 

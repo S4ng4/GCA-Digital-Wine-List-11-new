@@ -255,7 +255,7 @@ const WineriesDB = {
             mainWines: 'Vermouths, Asti, metodo classico "Villadoria."',
             founder: 'Giulio Cocchi',
         },
-        'COL D'ORCIA': {
+        'COL D\'ORCIA': {
             name: 'COL D\'ORCIA',
             region: 'Tuscany',
             location: 'Montalcino',
@@ -695,10 +695,8 @@ const WineriesDB = {
             name: 'Terre di Mario',
             notes: 'Information available in wineries database',
         },
-        'THE FOLLOWING WINERIES APPEARED IN THE FILE BUT WITHOUT DESCRIPTIONS:
-ABBAZIA DI NOVACELLA': {
-            name: 'The following wineries appeared in the file but without descriptions:
-Abbazia di Novacella',
+        'ABBAZIA DI NOVACELLA': {
+            name: 'Abbazia di Novacella',
             notes: 'Information available in wineries database',
         },
         'THE WANTED WINES ORION WINES': {

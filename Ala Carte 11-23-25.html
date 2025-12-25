@@ -204,6 +204,21 @@
             font-weight: 400;
         }
 
+        /* Wine List Button Glow Animation */
+        @keyframes glow-border-button {
+            0%, 100% {
+                border-color: rgba(212, 175, 55, 0.2);
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0),
+                            0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+            50% {
+                border-color: rgba(212, 175, 55, 0.8);
+                box-shadow: 0 0 10px 2px rgba(212, 175, 55, 0.8),
+                            0 0 20px 4px rgba(212, 175, 55, 0.4),
+                            0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+        }
+
         /* Wine List Button - Wine Card Style */
         .wine-list-button {
             display: inline-block;
@@ -219,9 +234,10 @@
             border: 2px solid rgba(212, 175, 55, 0.2);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            animation: glow-border-button 7s ease-in-out infinite;
         }
 
         .wine-list-button::before {
@@ -237,8 +253,6 @@
 
         .wine-list-button:hover {
             transform: translateX(5px);
-            border-color: var(--gold);
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
             background: linear-gradient(145deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
         }
 
