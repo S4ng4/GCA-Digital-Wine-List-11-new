@@ -4384,6 +4384,94 @@ function initInteractiveMap() {
                     setTimeout(() => {
                         mobileMapInstance.invalidateSize();
                     }, 100);
+                    
+                    // Load European countries borders for context (dark grey borders)
+                    // Using Natural Earth simplified countries data
+                    fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(worldGeoJson => {
+                            // Filter to show only European countries (countries that intersect with European bounds)
+                            const europeanCountries = worldGeoJson.features.filter(feature => {
+                                // Get country name for filtering
+                                const name = feature.properties?.name || feature.properties?.NAME || '';
+                                
+                                // List of European countries (excluding Italy as it will be shown separately)
+                                const europeanCountryNames = [
+                                    'France', 'Spain', 'Portugal', 'Switzerland', 'Austria', 'Germany',
+                                    'Belgium', 'Netherlands', 'Luxembourg', 'Poland', 'Czech Republic',
+                                    'Slovakia', 'Slovenia', 'Croatia', 'Bosnia and Herzegovina',
+                                    'Serbia', 'Montenegro', 'Albania', 'Greece', 'Bulgaria', 'Romania',
+                                    'Hungary', 'Moldova', 'Ukraine', 'Belarus', 'Lithuania', 'Latvia',
+                                    'Estonia', 'Finland', 'Sweden', 'Norway', 'Denmark', 'United Kingdom',
+                                    'Ireland', 'Malta', 'Cyprus', 'Monaco', 'San Marino', 'Vatican',
+                                    'Liechtenstein', 'Andorra', 'North Macedonia', 'Kosovo'
+                                ];
+                                
+                                // Check if country name matches European countries
+                                if (europeanCountryNames.some(euName => 
+                                    name.toLowerCase().includes(euName.toLowerCase()) ||
+                                    euName.toLowerCase().includes(name.toLowerCase())
+                                )) {
+                                    return true;
+                                }
+                                
+                                // Also check by coordinates if name doesn't match
+                                const checkCoords = (coords, depth = 0) => {
+                                    if (depth > 10) return false; // Prevent infinite recursion
+                                    
+                                    if (Array.isArray(coords[0]) && typeof coords[0][0] === 'number') {
+                                        // This is a coordinate pair [lon, lat]
+                                        const [lon, lat] = coords;
+                                        return lat >= 35 && lat <= 72 && lon >= -10 && lon <= 40;
+                                    } else if (Array.isArray(coords[0])) {
+                                        // This is an array of coordinates
+                                        return coords.some(coord => checkCoords(coord, depth + 1));
+                                    }
+                                    return false;
+                                };
+                                
+                                if (feature.geometry.type === 'Polygon') {
+                                    return checkCoords(feature.geometry.coordinates);
+                                } else if (feature.geometry.type === 'MultiPolygon') {
+                                    return feature.geometry.coordinates.some(poly => checkCoords(poly));
+                                }
+                                
+                                return false;
+                            });
+                            
+                            // Create filtered GeoJSON
+                            const europeGeoJson = {
+                                type: 'FeatureCollection',
+                                features: europeanCountries
+                            };
+                            
+                            // Add European borders layer with dark grey style
+                            const europeBordersLayer = L.geoJSON(europeGeoJson, {
+                                style: function(feature) {
+                                    return {
+                                        color: '#666666', // Medium grey borders
+                                        weight: 1.5,
+                                        fillOpacity: 0.15, // Slight grey fill to show countries
+                                        fillColor: '#666666', // Grey fill color
+                                        lineCap: 'round',
+                                        lineJoin: 'round',
+                                        interactive: false // Disable interactions for context layer
+                                    };
+                                }
+                            }).addTo(mobileMapInstance);
+                            
+                            console.log('✅ European borders layer added to mobile map');
+                        })
+                        .catch(error => {
+                            console.warn('⚠️ Could not load European borders (non-critical):', error);
+                            // Continue even if European borders fail to load
+                        });
+                    
                     fetch('https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojson/limits_IT_regions.geojson')
                         .then(response => {
                             if (!response.ok) {
@@ -7374,54 +7462,6 @@ function initInteractiveMap() {
                         } else {
                             console.warn('⚠️ Wine number not found for wine:', wine.wine_name, firstWine);
                         }
-                    }
-                }
-                
-                // Producers
-                if (wine.wine_producer && wine.wine_producer.toLowerCase().includes(term)) {
-                    const key = `producer:${wine.wine_producer}`;
-                    if (!seen.has(key)) {
-                        seen.add(key);
-                        const count = window.wineApp.wines.filter(w => w.wine_producer === wine.wine_producer).length;
-                        suggestions.push({
-                            type: 'producer',
-                            text: wine.wine_producer,
-                            icon: '🏛️',
-                            count: count,
-                            subtitle: 'Producer'
-                        });
-                    }
-                }
-                
-                // Varietals
-                if (wine.varietals && wine.varietals.toLowerCase().includes(term)) {
-                    const key = `varietal:${wine.varietals}`;
-                    if (!seen.has(key)) {
-                        seen.add(key);
-                        const count = window.wineApp.wines.filter(w => w.varietals === wine.varietals).length;
-                        suggestions.push({
-                            type: 'varietal',
-                            text: wine.varietals,
-                            icon: '🍇',
-                            count: count,
-                            subtitle: 'Grape variety'
-                        });
-                    }
-                }
-                
-                // Regions
-                if (wine.region && wine.region.toLowerCase().includes(term)) {
-                    const key = `region:${wine.region}`;
-                    if (!seen.has(key)) {
-                        seen.add(key);
-                        const count = window.wineApp.wines.filter(w => w.region === wine.region).length;
-                        suggestions.push({
-                            type: 'region',
-                            text: wine.region,
-                            icon: '🗺️',
-                            count: count,
-                            subtitle: 'Region'
-                        });
                     }
                 }
             });
