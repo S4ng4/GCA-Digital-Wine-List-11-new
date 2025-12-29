@@ -770,8 +770,14 @@
     <script>
         // Funzione per applicare il tema
         function applyTheme() {
-            const dayMode = localStorage.getItem('dayMode') === 'true';
-            document.documentElement.setAttribute('data-theme', dayMode ? 'day' : 'night');
+            const dayMode = localStorage.getItem('dayMode');
+            // Default a 'day' (light mode) se non è stato salvato alcun valore
+            const isDayMode = dayMode === null ? true : dayMode === 'true';
+            document.documentElement.setAttribute('data-theme', isDayMode ? 'day' : 'night');
+            // Salva il valore di default se non esiste
+            if (dayMode === null) {
+                localStorage.setItem('dayMode', 'true');
+            }
         }
 
         // Applica il tema all'avvio

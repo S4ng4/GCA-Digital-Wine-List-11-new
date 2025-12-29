@@ -3352,6 +3352,11 @@ body:not(.home-page) .luxury-container {
     overflow: hidden;
 }
 
+/* Day mode styles for general #map */
+:root[data-theme="day"] #map {
+    background: var(--bg-primary, #FDFBF7) !important;
+}
+
 /* Rimuoviamo lo sfondo della mappa di Leaflet */
 .leaflet-tile-pane {
     display: none !important;
@@ -3359,6 +3364,11 @@ body:not(.home-page) .luxury-container {
 
 .leaflet-container {
     background: #0A0A0A !important;
+}
+
+/* Day mode styles for general leaflet container */
+:root[data-theme="day"] .leaflet-container {
+    background: var(--bg-primary, #FDFBF7) !important;
 }
 
 .map-overlay {
@@ -5063,6 +5073,11 @@ body:not(.home-page) .luxury-container {
     background: #0A0A0A !important;
 }
 
+/* Day mode styles for #map in this section */
+:root[data-theme="day"] #map {
+    background: var(--bg-primary, #FDFBF7) !important;
+}
+
 /* ==================== WINES LIST CONTAINER ==================== */
 .wines-list-container {
     flex: 1;
@@ -5407,6 +5422,11 @@ body:not(.home-page) .luxury-container {
 
 .leaflet-container {
     background: #0A0A0A !important;
+}
+
+/* Day mode styles for .leaflet-container in this section */
+:root[data-theme="day"] .leaflet-container {
+    background: var(--bg-primary, #FDFBF7) !important;
 }
 
 .leaflet-tile-pane {
@@ -7037,7 +7057,7 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         left: 0;
         top: 50%;
         transform: translateY(-50%);
-        z-index: 185;
+        z-index: 180; /* Inferiore a mobile-search-bar-container (190) */
         background: linear-gradient(90deg, rgba(15, 15, 15, 0.98) 0%, rgba(20, 20, 20, 0.95) 100%);
         backdrop-filter: blur(40px) saturate(180%);
         -webkit-backdrop-filter: blur(40px) saturate(180%);
@@ -7795,6 +7815,11 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         margin-top: 83px; /* Modificato margin-top a 83px */
     }
 
+    /* Day mode styles for #mobileMap */
+    :root[data-theme="day"] #mobileMap {
+        background: var(--bg-primary, #FDFBF7) !important;
+    }
+
     /* Leaflet map container adjustments for mobile */
     .mobile-map-wrapper .leaflet-container {
         background: #000000 !important; /* Black background like in photo */
@@ -7802,6 +7827,11 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         bottom: 110px;
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    /* Day mode styles */
+    :root[data-theme="day"] .mobile-map-wrapper .leaflet-container {
+        background: var(--bg-primary, #FDFBF7) !important;
     }
 
     .mobile-region-info {
@@ -9293,6 +9323,19 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         visibility: visible !important;
         opacity: 1 !important;
     }
+
+    /* Day mode styles */
+    :root[data-theme="day"] .map-wrapper,
+    :root[data-theme="day"] #map,
+    :root[data-theme="day"] .leaflet-container,
+    :root[data-theme="day"] .mobile-map-wrapper,
+    :root[data-theme="day"] #mobileMap {
+        background: var(--bg-primary, #FDFBF7) !important;
+    }
+
+    :root[data-theme="day"] .mobile-map-view .leaflet-container {
+        background: var(--bg-primary, #FDFBF7) !important;
+    }
 }
 
 /* Reset per garantire visualizzazione su iOS */
@@ -9302,6 +9345,15 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
 
 .mobile-map-view .leaflet-container {
     background: #0A0A0A !important;
+}
+
+/* Day mode styles */
+:root[data-theme="day"] .leaflet-container {
+    background: var(--bg-primary, #FDFBF7) !important;
+}
+
+:root[data-theme="day"] .mobile-map-view .leaflet-container {
+    background: var(--bg-primary, #FDFBF7) !important;
 }
 
 /* =========================================================
@@ -9427,6 +9479,15 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
     .leaflet-tile-pane {
         display: none !important;
     }
+
+    /* Day mode styles */
+    :root[data-theme="day"] .map-wrapper,
+    :root[data-theme="day"] #map,
+    :root[data-theme="day"] #mobileMap,
+    :root[data-theme="day"] .mobile-map-wrapper,
+    :root[data-theme="day"] .leaflet-container {
+        background: var(--bg-primary, #FDFBF7) !important;
+    }
 }
 
 /* Fix tecnici anche per 820px-1023px (ma senza nascondere elementi desktop) */
@@ -9443,6 +9504,13 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
     
     .leaflet-tile-pane {
         display: none !important;
+    }
+
+    /* Day mode styles */
+    :root[data-theme="day"] .map-wrapper,
+    :root[data-theme="day"] #map,
+    :root[data-theme="day"] .leaflet-container {
+        background: var(--bg-primary, #FDFBF7) !important;
     }
 
     /* 2. Safe-area iOS */
@@ -9650,6 +9718,39 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
     color: var(--text-primary) !important;
 }
 
+/* Rimuovi gradienti scuri dai pseudo-elementi in day mode */
+:root[data-theme="day"] .wine-card::after {
+    background: none !important;
+    display: none !important;
+}
+
+:root[data-theme="day"] .wine-card::before {
+    background: linear-gradient(135deg, transparent, rgba(212, 175, 55, 0.1), transparent) !important;
+}
+
+:root[data-theme="day"] .wine-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+    border-color: var(--gold) !important;
+}
+
+:root[data-theme="day"] .wine-name,
+:root[data-theme="day"] .wine-price {
+    text-shadow: none !important;
+}
+
+:root[data-theme="day"] .wine-producer,
+:root[data-theme="day"] .wine-region {
+    text-shadow: none !important;
+}
+
+:root[data-theme="day"] .wine-producer {
+    color: var(--brand-red, #8B0000) !important;
+}
+
+:root[data-theme="day"] .wine-region {
+    color: var(--text-primary, #1a1a1a) !important;
+}
+
 :root[data-theme="day"] .wine-card-title,
 :root[data-theme="day"] .wine-card-subtitle {
     color: var(--text-primary) !important;
@@ -9786,6 +9887,193 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
     :root[data-theme="day"] .interactive-map-main {
         background: var(--bg-primary) !important; /* Light background for day mode on tablet */
     }
+}
+
+/* ==================== DAY MODE - MOBILE SEARCH BAR ==================== */
+:root[data-theme="day"] .mobile-search-bar-container {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 250, 245, 0.98) 100%) !important;
+    border-bottom: 1px solid rgba(139, 105, 20, 0.2) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+:root[data-theme="day"] .mobile-search-input {
+    background: rgba(245, 245, 240, 0.9) !important;
+    color: var(--text-primary, #1a1a1a) !important;
+    border: 1px solid rgba(139, 105, 20, 0.2) !important;
+}
+
+:root[data-theme="day"] .mobile-search-input:focus {
+    background: rgba(255, 255, 255, 1) !important;
+    border-color: rgba(139, 105, 20, 0.4) !important;
+}
+
+:root[data-theme="day"] .mobile-search-icon {
+    color: rgba(139, 105, 20, 0.7) !important;
+}
+
+:root[data-theme="day"] .mobile-quick-search-btn {
+    background: rgba(245, 245, 240, 0.6) !important;
+    border-color: rgba(139, 105, 20, 0.3) !important;
+    color: var(--text-primary, #1a1a1a) !important;
+}
+
+:root[data-theme="day"] .mobile-quick-search-btn:hover,
+:root[data-theme="day"] .mobile-quick-search-btn:active {
+    background: rgba(212, 175, 55, 0.15) !important;
+    border-color: rgba(139, 105, 20, 0.5) !important;
+    color: var(--brand-red, #8B0000) !important;
+}
+
+/* ==================== DAY MODE - MOBILE WINE TYPE SELECTOR ==================== */
+:root[data-theme="day"] .mobile-wine-type-selector {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 250, 245, 0.95) 100%) !important;
+    border-right: 1px solid rgba(139, 105, 20, 0.25) !important;
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.1), 
+                0 0 0 1px rgba(139, 105, 20, 0.2),
+                inset -1px 0 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-type-chip {
+    background: rgba(245, 245, 240, 0.6) !important;
+    border-color: rgba(139, 105, 20, 0.3) !important;
+    color: var(--text-primary, #1a1a1a) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-type-chip:hover,
+:root[data-theme="day"] .mobile-wine-type-chip.active {
+    background: rgba(212, 175, 55, 0.15) !important;
+    border-color: rgba(139, 105, 20, 0.5) !important;
+    color: var(--brand-red, #8B0000) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-types-scroll::-webkit-scrollbar-track {
+    background: rgba(245, 245, 240, 0.5) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-types-scroll::-webkit-scrollbar-thumb {
+    background: rgba(139, 105, 20, 0.5) !important;
+}
+
+/* ==================== DAY MODE - WINES LIST CONTAINER ==================== */
+:root[data-theme="day"] .wines-list-container {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+:root[data-theme="day"] .wines-list-header {
+    background: var(--bg-primary) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+:root[data-theme="day"] .wines-list-title,
+:root[data-theme="day"] .wines-list-subtitle {
+    color: var(--text-primary) !important;
+}
+
+:root[data-theme="day"] .btn-back-to-map {
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+:root[data-theme="day"] .btn-back-to-map:hover {
+    background: rgba(212, 175, 55, 0.1) !important;
+    border-color: var(--gold) !important;
+}
+
+:root[data-theme="day"] .wines-grid-container {
+    background: var(--bg-primary) !important;
+}
+
+/* ==================== DAY MODE - MOBILE WINES CARDS ==================== */
+:root[data-theme="day"] .mobile-wines-cards-container {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(250, 250, 245, 0.9)) !important;
+}
+
+:root[data-theme="day"] .mobile-wines-cards-header {
+    background: transparent !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+:root[data-theme="day"] .mobile-wines-cards-title {
+    color: var(--text-primary, #1a1a1a) !important;
+}
+
+:root[data-theme="day"] .mobile-wines-cards-grid {
+    background: var(--bg-primary) !important;
+}
+
+:root[data-theme="day"] .mobile-wines-cards-grid::-webkit-scrollbar-track {
+    background: rgba(245, 245, 240, 0.5) !important;
+}
+
+:root[data-theme="day"] .mobile-wines-cards-grid::-webkit-scrollbar-thumb {
+    background: rgba(139, 105, 20, 0.5) !important;
+}
+
+:root[data-theme="day"] .mobile-back-to-map-btn {
+    color: var(--text-primary, #1a1a1a) !important;
+}
+
+:root[data-theme="day"] .mobile-back-to-map-btn:hover,
+:root[data-theme="day"] .mobile-back-to-map-btn:active {
+    background: rgba(212, 175, 55, 0.1) !important;
+    color: var(--brand-red, #8B0000) !important;
+}
+
+/* ==================== DAY MODE - MOBILE WINE CARD ==================== */
+:root[data-theme="day"] .mobile-wine-card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(139, 105, 20, 0.3) !important;
+    color: var(--text-primary, #1a1a1a) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-card:active {
+    background: rgba(212, 175, 55, 0.15) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-card-header,
+:root[data-theme="day"] .mobile-wine-card-name,
+:root[data-theme="day"] .mobile-wine-card-price {
+    color: var(--text-primary, #1a1a1a) !important;
+}
+
+/* ==================== DAY MODE - MOBILE WINE CARD GRID ==================== */
+:root[data-theme="day"] .mobile-wine-card-grid {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(250, 250, 245, 1)) !important;
+    border: 1px solid rgba(139, 105, 20, 0.3) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1),
+                0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-card-grid:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15),
+                0 4px 12px rgba(212, 175, 55, 0.1) !important;
+    border-color: var(--gold) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-card-grid::before {
+    background: linear-gradient(135deg, transparent, rgba(212, 175, 55, 0.1), transparent) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-card-grid::after {
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%) !important;
+}
+
+:root[data-theme="day"] .mobile-wine-card-grid-name,
+:root[data-theme="day"] .mobile-wine-card-grid-price {
+    color: var(--text-primary, #1a1a1a) !important;
+    text-shadow: none !important;
+}
+
+:root[data-theme="day"] .mobile-wine-card-grid-producer {
+    color: var(--brand-red, #8B0000) !important;
+    text-shadow: none !important;
+}
+
+:root[data-theme="day"] .mobile-wine-card-grid-region,
+:root[data-theme="day"] .mobile-wine-card-grid-grape {
+    color: var(--text-primary, #1a1a1a) !important;
+    text-shadow: none !important;
 }
 
 /* ==================== TABLET OPTIMIZATION (768px - 1024px) ==================== */

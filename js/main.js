@@ -51,8 +51,14 @@ console.log('📍 Wines JSON Path:', getPath('./data/wines.json'));
 
 // Inizializza il tema day/night mode all'avvio
 (function initTheme() {
-    const dayMode = localStorage.getItem('dayMode') === 'true';
-    document.documentElement.setAttribute('data-theme', dayMode ? 'day' : 'night');
+    const dayMode = localStorage.getItem('dayMode');
+    // Default a 'day' (light mode) se non è stato salvato alcun valore
+    const isDayMode = dayMode === null ? true : dayMode === 'true';
+    document.documentElement.setAttribute('data-theme', isDayMode ? 'day' : 'night');
+    // Salva il valore di default se non esiste
+    if (dayMode === null) {
+        localStorage.setItem('dayMode', 'true');
+    }
 })();
 
 class WineListApp {
@@ -3887,7 +3893,13 @@ function initInteractiveMap() {
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.className = 'day-night-switch-input';
-            input.checked = localStorage.getItem('dayMode') === 'true';
+            // Default a 'day' (light mode) se non è stato salvato alcun valore
+            const dayMode = localStorage.getItem('dayMode');
+            input.checked = dayMode === null ? true : dayMode === 'true';
+            // Salva il valore di default se non esiste
+            if (dayMode === null) {
+                localStorage.setItem('dayMode', 'true');
+            }
             
             const slider = document.createElement('span');
             slider.className = 'day-night-switch-slider';

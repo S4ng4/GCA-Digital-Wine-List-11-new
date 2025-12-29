@@ -408,6 +408,93 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 16px rgba(212, 175, 55, 0.4);
         }
+
+        /* ==================== DAY MODE STYLES ==================== */
+        :root[data-theme="day"] html,
+        :root[data-theme="day"] body {
+            background: #FDFBF7 !important;
+            color: #1a1a1a !important;
+        }
+
+        :root[data-theme="day"] .tlc11-container {
+            background: linear-gradient(135deg, #FDFBF7 0%, #F8F8F0 100%) !important;
+        }
+
+        :root[data-theme="day"] .tlc11-top-bar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-bottom: 2px solid rgba(139, 105, 20, 0.2) !important;
+        }
+
+        :root[data-theme="day"] .tlc11-back-btn {
+            color: #8B0000 !important;
+        }
+
+        :root[data-theme="day"] .tlc11-back-btn:hover {
+            color: #C5A059 !important;
+            background: rgba(212, 175, 55, 0.1) !important;
+        }
+
+        :root[data-theme="day"] .tlc11-top-title {
+            color: #8B0000 !important;
+        }
+
+        :root[data-theme="day"] .tlc11-share-btn {
+            color: #8B0000 !important;
+        }
+
+        :root[data-theme="day"] .tlc11-share-btn:hover {
+            color: #C5A059 !important;
+        }
+
+        :root[data-theme="day"] .tlc11-content-area {
+            background: linear-gradient(135deg, #FDFBF7 0%, #F8F8F0 100%) !important;
+        }
+
+        :root[data-theme="day"] .tlc11-wine-image {
+            background: rgba(245, 245, 240, 0.5) !important;
+            border: 2px solid rgba(139, 105, 20, 0.3) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        :root[data-theme="day"] .tlc11-wine-bottle {
+            color: rgba(139, 105, 20, 0.3) !important;
+        }
+
+        :root[data-theme="day"] .tlc11-wine-name {
+            color: #8B0000 !important;
+        }
+
+        :root[data-theme="day"] .tlc11-wine-description {
+            background: rgba(245, 245, 240, 0.5) !important;
+            color: #1a1a1a !important;
+            border-left: 3px solid #C5A059 !important;
+        }
+
+        :root[data-theme="day"] .tlc11-info-item {
+            background: rgba(245, 245, 240, 0.5) !important;
+            border-left: 3px solid #C5A059 !important;
+        }
+
+        :root[data-theme="day"] .tlc11-info-label {
+            color: #8B0000 !important;
+        }
+
+        :root[data-theme="day"] .tlc11-info-value {
+            color: #1a1a1a !important;
+        }
+
+        :root[data-theme="day"] .tlc11-share-section {
+            border-top: 2px solid rgba(139, 105, 20, 0.2) !important;
+        }
+
+        :root[data-theme="day"] .tlc11-share-wine-btn {
+            background: linear-gradient(135deg, #C5A059 0%, #8B6914 100%) !important;
+            color: #fff !important;
+        }
+
+        :root[data-theme="day"] .tlc11-share-wine-btn:hover {
+            box-shadow: 0 8px 16px rgba(139, 105, 20, 0.2) !important;
+        }
     </style>
 </head>
 <body>
@@ -561,6 +648,39 @@
     <script src="js/wineries.js"></script>
     <script src="js/main.js"></script>
     <script>
+        // Funzione per applicare il tema
+        function applyTheme() {
+            const dayMode = localStorage.getItem('dayMode');
+            // Default a 'day' (light mode) se non è stato salvato alcun valore
+            const isDayMode = dayMode === null ? true : dayMode === 'true';
+            document.documentElement.setAttribute('data-theme', isDayMode ? 'day' : 'night');
+            // Salva il valore di default se non esiste
+            if (dayMode === null) {
+                localStorage.setItem('dayMode', 'true');
+            }
+        }
+
+        // Applica il tema all'avvio
+        applyTheme();
+
+        // Ascolta i cambiamenti del tema
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'dayMode') {
+                applyTheme();
+            }
+        });
+
+        // Polling per verificare cambiamenti del tema
+        setInterval(function() {
+            const currentDayMode = localStorage.getItem('dayMode') === 'true';
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const expectedTheme = currentDayMode ? 'day' : 'night';
+            
+            if (currentTheme !== expectedTheme) {
+                applyTheme();
+            }
+        }, 100);
+
         // TLC 11 Specific Initialization
         let currentWine = null;
 

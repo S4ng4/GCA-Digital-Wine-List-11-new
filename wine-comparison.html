@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine Comparison - Gran Caffè L'Aquila</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F4CF67;
+            --dark-gold: #B8860B;
+            --black: #0A0A0A;
+            --charcoal: #1A1A1A;
+            --ivory: #F5F5F0;
+            --cream: #F8F8F0;
+            --green: #4CAF50;
+            --red: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Cormorant', serif;
+            background: var(--black);
+            color: var(--ivory);
+        }
+
+        .luxury-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--charcoal) 0%, var(--black) 100%);
+        }
+
+        /* Top Bar */
+        .comparison-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: rgba(26, 26, 26, 0.95);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .comparison-back-btn {
+            color: var(--gold);
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .comparison-back-btn:hover {
+            color: var(--gold-light);
+        }
+
+        .comparison-logo {
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .comparison-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .comparison-logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .comparison-top-title {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--gold);
+            flex: 1;
+            text-align: center;
+        }
+
+        .comparison-reset-btn {
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 16px;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 8px;
+        }
+
+        .comparison-reset-btn:hover {
+            color: var(--gold-light);
+        }
+
+        /* Main Content */
+        .comparison-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Selection State - Placeholder Cards */
+        .selection-state {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .selection-state {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .wine-slot {
+            position: relative;
+            min-height: 500px;
+            background: rgba(245, 245, 240, 0.03);
+            border: 2px dashed rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .wine-slot:hover {
+            border-color: var(--gold);
+            background: rgba(245, 245, 240, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .wine-slot.selected {
+            border: 2px solid var(--gold);
+            border-style: solid;
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        /* Glow Animation for Placeholders */
+        @keyframes glowPulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(212, 175, 55, 0.2),
+                            0 0 40px rgba(212, 175, 55, 0.1),
+                            inset 0 0 20px rgba(212, 175, 55, 0.05);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(212, 175, 55, 0.4),
+                            0 0 60px rgba(212, 175, 55, 0.2),
+                            inset 0 0 30px rgba(212, 175, 55, 0.1);
+            }
+        }
+
+        .wine-slot:not(.selected) {
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        .placeholder-content {
+            text-align: center;
+            color: var(--gold);
+        }
+
+        .placeholder-icon {
+            font-size: 64px;
+            margin-bottom: 1.5rem;
+            opacity: 0.6;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .placeholder-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+
+        .placeholder-subtext {
+            font-size: 1rem;
+            color: var(--ivory);
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        /* Wine Card in Slot */
+        .wine-card {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .wine-card-image {
+            width: 200px;
+            height: 400px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+        }
+
+        .wine-card-icon {
+            font-size: 120px;
+            color: rgba(212, 175, 55, 0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        .wine-card-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .wine-card-producer {
+            font-size: 1.1rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .wine-card-remove {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.4);
+            color: var(--red);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .wine-card-remove:hover {
+            background: rgba(244, 67, 54, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* Comparison State */
+        .comparison-state {
+            display: none;
+        }
+
+        .comparison-state.active {
+            display: block;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .comparison-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-subtitle {
+            color: var(--ivory);
+            opacity: 0.7;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 767px) {
+            .comparison-header {
+                margin-bottom: 1.5rem;
+            }
+
+            .comparison-title {
+                font-size: 1.5rem;
+            }
+
+            .comparison-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+        }
+
+        .comparison-wine {
+            background: rgba(245, 245, 240, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        @media (max-width: 767px) {
+            .comparison-wine {
+                padding: 1.5rem;
+            }
+        }
+
+        .comparison-wine-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .comparison-wine-image {
+            width: 180px;
+            height: 360px;
+            object-fit: contain;
+            margin: 0 auto 1.5rem;
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+        }
+
+        .comparison-wine-icon {
+            font-size: 100px;
+            color: rgba(212, 175, 55, 0.4);
+            margin: 0 auto 1.5rem;
+            display: block;
+            text-align: center;
+        }
+
+        @media (max-width: 767px) {
+            .comparison-wine-image {
+                width: 120px;
+                height: 240px;
+                margin-bottom: 1rem;
+            }
+
+            .comparison-wine-icon {
+                font-size: 80px;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .comparison-wine-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .comparison-wine-producer {
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 767px) {
+            .comparison-wine-name {
+                font-size: 1.4rem;
+            }
+
+            .comparison-wine-producer {
+                font-size: 1rem;
+                margin-bottom: 1.25rem;
+            }
+        }
+
+        .comparison-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .comparison-detail-item {
+            background: rgba(245, 245, 240, 0.03);
+            padding: 1.2rem 1rem;
+            border-left: 3px solid rgba(212, 175, 55, 0.4);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-detail-item:hover {
+            background: rgba(245, 245, 240, 0.06);
+            border-left-color: var(--gold);
+        }
+
+        .comparison-detail-label {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.75rem;
+            font-family: 'Cinzel', serif;
+        }
+
+        .comparison-detail-value {
+            color: var(--ivory);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .comparison-detail-value.different {
+            color: var(--gold-light);
+            font-weight: 500;
+        }
+
+        .comparison-detail-value.same {
+            opacity: 0.75;
+        }
+
+        @media (max-width: 767px) {
+            .comparison-detail-item {
+                padding: 1rem 0.875rem;
+            }
+
+            .comparison-detail-label {
+                font-size: 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .comparison-detail-value {
+                font-size: 1rem;
+            }
+        }
+
+        /* Comparison Narrative Summary */
+        .comparison-narrative {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            border-left: 4px solid var(--gold);
+        }
+
+        .narrative-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .narrative-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--ivory);
+            font-style: italic;
+        }
+
+        @media (max-width: 767px) {
+            .comparison-narrative {
+                padding: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .narrative-title {
+                font-size: 1.1rem;
+            }
+
+            .narrative-text {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+        }
+
+        /* Action Buttons */
+        .comparison-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .comparison-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%);
+            border: none;
+            color: var(--black);
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comparison-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
+        }
+
+        .comparison-btn.secondary {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--gold);
+        }
+
+        .comparison-btn.secondary:hover {
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        /* Search Modal */
+        .search-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .search-modal.active {
+            display: flex;
+        }
+
+        .search-modal-content {
+            background: var(--charcoal);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .search-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-modal-title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .search-modal-close {
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .search-modal-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            font-size: 18px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            background: rgba(245, 245, 240, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            color: var(--ivory);
+            font-size: 1rem;
+            font-family: 'Cormorant', serif;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(245, 245, 240, 0.08);
+        }
+
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .search-result-item {
+            background: rgba(245, 245, 240, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-result-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold);
+            transform: translateX(4px);
+        }
+
+        .search-result-image {
+            width: 60px;
+            height: 120px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .search-result-icon {
+            font-size: 40px;
+            color: rgba(212, 175, 55, 0.4);
+            flex-shrink: 0;
+        }
+
+        .search-result-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .search-result-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .search-result-producer {
+            font-size: 0.9rem;
+            color: var(--gold);
+            margin-bottom: 0.25rem;
+        }
+
+        .search-result-details {
+            font-size: 0.85rem;
+            color: var(--ivory);
+            opacity: 0.7;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--ivory);
+            opacity: 0.6;
+        }
+
+        /* Footer */
+        .luxury-footer {
+            background: rgba(10, 10, 10, 0.8);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 15px 20px;
+            flex-shrink: 0;
+            font-size: 10px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            color: var(--gold);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            grid-column: 1 / -1;
+        }
+
+        .footer-info p {
+            margin: 3px 0;
+            color: var(--ivory);
+        }
+
+        .footer-info i {
+            color: var(--gold);
+            width: 12px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold-light);
+        }
+
+        .copyright {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: rgba(212, 175, 55, 0.5);
+            font-size: 9px;
+        }
+
+        /* Scrollbar */
+        .comparison-container::-webkit-scrollbar,
+        .search-results::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .comparison-container::-webkit-scrollbar-track,
+        .search-results::-webkit-scrollbar-track {
+            background: rgba(245, 245, 240, 0.05);
+        }
+
+        .comparison-container::-webkit-scrollbar-thumb,
+        .search-results::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.3);
+            border-radius: 3px;
+        }
+
+        /* Comparison Page Specific Styles */
+        .comparison-top-bar {
+            position: relative;
+            gap: 12px;
+        }
+
+        /* Mobile Overlay - Ensure it's hidden by default */
+        .mobile-overlay {
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        .mobile-overlay.visible {
+            opacity: 1 !important;
+            pointer-events: all !important;
+        }
+
+        /* Show burger button on mobile, hide back button */
+        @media (max-width: 767px) {
+            .comparison-back-btn {
+                display: none !important;
+            }
+            
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Mobile Side Menu -->
+    <nav class="mobile-side-menu" id="mobileSideMenu">
+        <div class="mobile-menu-header">
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <i class="fas fa-arrow-left"></i>
+                <span>Close</span>
+            </button>
+            <h2 class="mobile-menu-title">Gran Caffe Experience</h2>
+        </div>
+        <div class="mobile-menu-categories" id="mobileMenuCategories">
+            <!-- Menu items will be populated dynamically -->
+            <div class="mobile-menu-category" onclick="window.location.href='index.html'">
+                <span class="mobile-menu-category-name">Home</span>
+            </div>
+            <div class="mobile-menu-category" onclick="window.location.href='wines.html'">
+                <span class="mobile-menu-category-name">All Wines</span>
+            </div>
+            <div class="mobile-menu-category" onclick="window.location.href='WineByTheGlass.html'">
+                <span class="mobile-menu-category-name">Wine by the Glass</span>
+            </div>
+            <div class="mobile-menu-category" onclick="window.location.href='wine-comparison.html'">
+                <span class="mobile-menu-category-name">Compare Wines</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="luxury-container">
+        <!-- Top Bar -->
+        <div class="comparison-top-bar">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </button>
+            <a href="index.html" class="comparison-back-btn">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            <div class="comparison-logo" onclick="window.location.href='./index.html'">
+                <img src="./image/gcaLogo.png" alt="Gran Caffè L'Aquila Logo" class="comparison-logo-image">
+            </div>
+            <h1 class="comparison-top-title">WINE COMPARISON</h1>
+            <button class="comparison-reset-btn" id="resetBtn" title="Reset Comparison">
+                <i class="fas fa-redo"></i>
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <main class="comparison-container">
+            <!-- Selection State -->
+            <div class="selection-state" id="selectionState">
+                <div class="wine-slot" data-slot="0" id="wineSlot0">
+                    <div class="placeholder-content" id="placeholder0">
+                        <i class="fas fa-wine-bottle placeholder-icon"></i>
+                        <div class="placeholder-text">Select First Wine</div>
+                        <div class="placeholder-subtext">Click to search and compare</div>
+                    </div>
+                    <div class="wine-card" id="wineCard0" style="display: none;"></div>
+                </div>
+                <div class="wine-slot" data-slot="1" id="wineSlot1">
+                    <div class="placeholder-content" id="placeholder1">
+                        <i class="fas fa-wine-glass placeholder-icon"></i>
+                        <div class="placeholder-text">Select Second Wine</div>
+                        <div class="placeholder-subtext">Click to search and compare</div>
+                    </div>
+                    <div class="wine-card" id="wineCard1" style="display: none;"></div>
+                </div>
+            </div>
+
+            <!-- Comparison State -->
+            <div class="comparison-state" id="comparisonState">
+                <div class="comparison-header">
+                    <h2 class="comparison-title">Wine Comparison</h2>
+                    <p class="comparison-subtitle">Side-by-side comparison to help you choose</p>
+                </div>
+                <div class="comparison-grid" id="comparisonGrid"></div>
+                <div class="comparison-actions">
+                    <button class="comparison-btn secondary" id="swapBtn">
+                        <i class="fas fa-exchange-alt"></i> Swap Wines
+                    </button>
+                    <button class="comparison-btn secondary" id="backToSelectionBtn">
+                        <i class="fas fa-edit"></i> Change Selection
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="luxury-footer">
+            <div class="footer-content">
+                <div class="footer-logo">GRAN CAFFÈ L'AQUILA</div>
+                <div class="footer-info">
+                    <p><i class="fas fa-map-marker-alt"></i> 1716 Chestnut St</p>
+                    <p><i class="fas fa-phone"></i> +1 (215) 568-5600</p>
+                </div>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2023 Gran Caffè L'Aquila</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content">
+            <div class="search-modal-header">
+                <h3 class="search-modal-title">Search Wine</h3>
+                <button class="search-modal-close" id="closeSearchModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-input-wrapper">
+                <i class="fas fa-search search-input-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search by name, producer, region, or varietal..." autocomplete="off">
+            </div>
+            <div class="search-results" id="searchResults">
+                <div class="no-results">Start typing to search for wines...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get base path for GitHub Pages
+        function getBasePath() {
+            const pathname = window.location.pathname;
+            if (pathname === '/') return '';
+            const match = pathname.match(/^\/([^\/]+)/);
+            if (match) {
+                const firstSegment = match[1];
+                if (!firstSegment.endsWith('.html')) {
+                    return '/' + firstSegment;
+                }
+            }
+            if (window.location.hostname.includes('github.io')) {
+                const segments = pathname.split('/').filter(s => s && !s.endsWith('.html'));
+                if (segments.length > 0) {
+                    return '/' + segments[0];
+                }
+            }
+            return '';
+        }
+
+        function getPath(relativePath) {
+            const basePath = getBasePath();
+            const cleanPath = relativePath.replace(/^\.\//, '');
+            const normalizedPath = cleanPath.startsWith('/') ? cleanPath : '/' + cleanPath;
+            return basePath + normalizedPath;
+        }
+
+        class WineComparison {
+            constructor() {
+                this.wines = [];
+                this.selectedWines = [null, null];
+                this.currentSlot = null;
+                this.init();
+            }
+
+            async init() {
+                // Ensure mobile overlay is hidden on page load
+                const mobileOverlay = document.getElementById('mobileOverlay');
+                if (mobileOverlay) {
+                    mobileOverlay.classList.remove('visible');
+                }
+                const mobileSideMenu = document.getElementById('mobileSideMenu');
+                if (mobileSideMenu) {
+                    mobileSideMenu.classList.remove('open');
+                }
+                document.body.classList.remove('mobile-menu-open');
+                
+                await this.loadWineData();
+                this.setupEventListeners();
+                this.checkURLParameters();
+            }
+
+            async loadWineData() {
+                try {
+                    const winesPath = getPath('./data/wines.json');
+                    const response = await fetch(winesPath + '?v=' + Date.now());
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const data = await response.json();
+                    this.wines = data.wines || [];
+                    console.log(`Loaded ${this.wines.length} wines`);
+                } catch (error) {
+                    console.error('Error loading wines:', error);
+                    this.showError('Failed to load wine data. Please refresh the page.');
+                }
+            }
+
+            setupEventListeners() {
+                // Slot clicks
+                const wineSlot0 = document.getElementById('wineSlot0');
+                const wineSlot1 = document.getElementById('wineSlot1');
+                if (wineSlot0) wineSlot0.addEventListener('click', () => this.openSearchModal(0));
+                if (wineSlot1) wineSlot1.addEventListener('click', () => this.openSearchModal(1));
+
+                // Modal
+                const closeSearchModal = document.getElementById('closeSearchModal');
+                const searchModal = document.getElementById('searchModal');
+                if (closeSearchModal) closeSearchModal.addEventListener('click', () => this.closeSearchModal());
+                if (searchModal) {
+                    searchModal.addEventListener('click', (e) => {
+                        if (e.target.id === 'searchModal') this.closeSearchModal();
+                    });
+                }
+
+                // Search input
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
+
+                // Actions
+                const resetBtn = document.getElementById('resetBtn');
+                const swapBtn = document.getElementById('swapBtn');
+                const backToSelectionBtn = document.getElementById('backToSelectionBtn');
+                if (resetBtn) resetBtn.addEventListener('click', () => this.resetComparison());
+                if (swapBtn) swapBtn.addEventListener('click', () => this.swapWines());
+                if (backToSelectionBtn) backToSelectionBtn.addEventListener('click', () => this.backToSelection());
+
+                // Burger Menu
+                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                const mobileSideMenu = document.getElementById('mobileSideMenu');
+                const mobileOverlay = document.getElementById('mobileOverlay');
+                const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+                console.log('Burger menu elements:', { mobileMenuBtn, mobileSideMenu, mobileOverlay, mobileMenuClose });
+
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Burger button clicked');
+                        document.body.classList.add('mobile-menu-open');
+                        if (mobileSideMenu) mobileSideMenu.classList.add('open');
+                        if (mobileOverlay) mobileOverlay.classList.add('visible');
+                    });
+                } else {
+                    console.error('Burger menu button not found!');
+                }
+
+                if (mobileMenuClose) {
+                    mobileMenuClose.addEventListener('click', () => {
+                        console.log('Close button clicked');
+                        this.closeMobileMenu();
+                    });
+                }
+
+                if (mobileOverlay) {
+                    mobileOverlay.addEventListener('click', () => {
+                        console.log('Overlay clicked');
+                        this.closeMobileMenu();
+                    });
+                }
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeSearchModal();
+                        this.closeMobileMenu();
+                    }
+                });
+            }
+
+            closeMobileMenu() {
+                document.body.classList.remove('mobile-menu-open');
+                const mobileSideMenu = document.getElementById('mobileSideMenu');
+                const mobileOverlay = document.getElementById('mobileOverlay');
+                if (mobileSideMenu) mobileSideMenu.classList.remove('open');
+                if (mobileOverlay) mobileOverlay.classList.remove('visible');
+            }
+
+            checkURLParameters() {
+                const params = new URLSearchParams(window.location.search);
+                const wine1 = params.get('wine1');
+                const wine2 = params.get('wine2');
+                
+                if (wine1) {
+                    const wine = this.wines.find(w => w.wine_number === wine1);
+                    if (wine) this.selectWine(0, wine);
+                }
+                if (wine2) {
+                    const wine = this.wines.find(w => w.wine_number === wine2);
+                    if (wine) this.selectWine(1, wine);
+                }
+            }
+
+            openSearchModal(slotIndex) {
+                this.currentSlot = slotIndex;
+                const searchModal = document.getElementById('searchModal');
+                const searchInput = document.getElementById('searchInput');
+                if (searchModal) searchModal.classList.add('active');
+                if (searchInput) {
+                    searchInput.value = '';
+                    searchInput.focus();
+                }
+                this.handleSearch('');
+            }
+
+            closeSearchModal() {
+                const searchModal = document.getElementById('searchModal');
+                if (searchModal) searchModal.classList.remove('active');
+                this.currentSlot = null;
+            }
+
+            handleSearch(query) {
+                const resultsContainer = document.getElementById('searchResults');
+                const queryLower = query.toLowerCase().trim();
+
+                if (!queryLower) {
+                    // Show all wines or recent wines
+                    this.displaySearchResults(this.wines.slice(0, 20));
+                    return;
+                }
+
+                const filtered = this.wines.filter(wine => {
+                    const name = (wine.wine_name || '').toLowerCase();
+                    const producer = (wine.wine_producer || '').toLowerCase();
+                    const region = (wine.region || '').toLowerCase();
+                    const varietals = (wine.varietals || '').toLowerCase();
+                    const type = (wine.wine_type || '').toLowerCase();
+                    
+                    return name.includes(queryLower) ||
+                           producer.includes(queryLower) ||
+                           region.includes(queryLower) ||
+                           varietals.includes(queryLower) ||
+                           type.includes(queryLower);
+                });
+
+                this.displaySearchResults(filtered.slice(0, 50));
+            }
+
+            displaySearchResults(wines) {
+                const resultsContainer = document.getElementById('searchResults');
+                
+                if (wines.length === 0) {
+                    resultsContainer.innerHTML = '<div class="no-results">No wines found. Try a different search term.</div>';
+                    return;
+                }
+
+                resultsContainer.innerHTML = wines.map(wine => {
+                    const imageHtml = wine.bottle_image_url 
+                        ? `<img src="${wine.bottle_image_url}" alt="${wine.wine_name}" class="search-result-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />`
+                        : '';
+                    const iconHtml = wine.bottle_image_url 
+                        ? `<i class="fas fa-wine-bottle search-result-icon" style="display: none;"></i>`
+                        : `<i class="fas fa-wine-bottle search-result-icon"></i>`;
+                    
+                    return `
+                        <div class="search-result-item" data-wine-id="${wine.wine_number}">
+                            ${imageHtml}
+                            ${iconHtml}
+                            <div class="search-result-info">
+                                <div class="search-result-name">${wine.wine_name || 'Unknown Wine'}</div>
+                                <div class="search-result-producer">${wine.wine_producer || 'Unknown Producer'}</div>
+                                <div class="search-result-details">
+                                    ${wine.region || ''} ${wine.wine_type ? '• ' + wine.wine_type : ''} ${wine.wine_price ? '• $' + wine.wine_price : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Add click listeners
+                resultsContainer.querySelectorAll('.search-result-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const wineId = item.dataset.wineId;
+                        const wine = this.wines.find(w => w.wine_number === wineId);
+                        if (wine) {
+                            this.selectWine(this.currentSlot, wine);
+                            this.closeSearchModal();
+                        }
+                    });
+                });
+            }
+
+            selectWine(slotIndex, wine) {
+                this.selectedWines[slotIndex] = wine;
+                this.renderWineSlot(slotIndex, wine);
+                this.checkComparisonReady();
+            }
+
+            renderWineSlot(slotIndex, wine) {
+                const slot = document.getElementById(`wineSlot${slotIndex}`);
+                const placeholder = document.getElementById(`placeholder${slotIndex}`);
+                const card = document.getElementById(`wineCard${slotIndex}`);
+
+                if (!slot || !placeholder || !card) {
+                    console.error(`Missing elements for slot ${slotIndex}`);
+                    return;
+                }
+
+                slot.classList.add('selected');
+                placeholder.style.display = 'none';
+                card.style.display = 'flex';
+
+                const imageHtml = wine.bottle_image_url
+                    ? `<img src="${wine.bottle_image_url}" alt="${wine.wine_name}" class="wine-card-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />`
+                    : '';
+                const iconHtml = wine.bottle_image_url
+                    ? `<i class="fas fa-wine-bottle wine-card-icon" style="display: none;"></i>`
+                    : `<i class="fas fa-wine-bottle wine-card-icon"></i>`;
+
+                card.innerHTML = `
+                    <button class="wine-card-remove" onclick="event.stopPropagation(); wineComparison.removeWine(${slotIndex})" title="Remove wine">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    ${imageHtml}
+                    ${iconHtml}
+                    <div class="wine-card-name">${wine.wine_name || 'Unknown Wine'}</div>
+                    <div class="wine-card-producer">${wine.wine_producer || 'Unknown Producer'}</div>
+                `;
+
+                // Make slot clickable again to change selection
+                slot.onclick = () => this.openSearchModal(slotIndex);
+            }
+
+            removeWine(slotIndex) {
+                this.selectedWines[slotIndex] = null;
+                const slot = document.getElementById(`wineSlot${slotIndex}`);
+                const placeholder = document.getElementById(`placeholder${slotIndex}`);
+                const card = document.getElementById(`wineCard${slotIndex}`);
+
+                if (!slot || !placeholder || !card) {
+                    console.error(`Missing elements for slot ${slotIndex}`);
+                    return;
+                }
+
+                slot.classList.remove('selected');
+                placeholder.style.display = 'block';
+                card.style.display = 'none';
+                card.innerHTML = '';
+
+                slot.onclick = () => this.openSearchModal(slotIndex);
+                this.checkComparisonReady();
+            }
+
+            checkComparisonReady() {
+                if (this.selectedWines[0] && this.selectedWines[1]) {
+                    this.showComparison();
+                } else {
+                    this.hideComparison();
+                }
+            }
+
+            showComparison() {
+                const selectionState = document.getElementById('selectionState');
+                const comparisonState = document.getElementById('comparisonState');
+                if (selectionState) selectionState.style.display = 'none';
+                if (comparisonState) comparisonState.classList.add('active');
+                this.renderComparison();
+            }
+
+            hideComparison() {
+                const selectionState = document.getElementById('selectionState');
+                const comparisonState = document.getElementById('comparisonState');
+                if (selectionState) selectionState.style.display = 'grid';
+                if (comparisonState) comparisonState.classList.remove('active');
+            }
+
+            renderComparison() {
+                const [wine1, wine2] = this.selectedWines;
+                const grid = document.getElementById('comparisonGrid');
+                if (!grid) {
+                    console.error('Comparison grid element not found');
+                    return;
+                }
+
+                // Focus on meaningful, interpretative fields
+                const fieldsToCompare = [
+                    { 
+                        key: 'region', 
+                        label: 'Region',
+                        extractor: (w) => w.region || 'N/A'
+                    },
+                    { 
+                        key: 'varietals', 
+                        label: 'Grape Variety',
+                        extractor: (w) => w.varietals || 'N/A'
+                    },
+                    { 
+                        key: 'body', 
+                        label: 'Body',
+                        extractor: (w) => this.inferBody(w)
+                    },
+                    { 
+                        key: 'acidity', 
+                        label: 'Acidity',
+                        extractor: (w) => this.inferAcidity(w)
+                    },
+                    { 
+                        key: 'aging', 
+                        label: 'Aging',
+                        extractor: (w) => w.aging || 'N/A'
+                    },
+                    { 
+                        key: 'style', 
+                        label: 'Style',
+                        extractor: (w) => this.inferStyle(w)
+                    },
+                    { 
+                        key: 'drinkability', 
+                        label: 'Drinkability',
+                        extractor: (w) => this.inferDrinkability(w)
+                    }
+                ];
+
+                grid.innerHTML = `
+                    <div class="comparison-wine">
+                        <div class="comparison-wine-header">
+                            ${wine1.bottle_image_url 
+                                ? `<img src="${wine1.bottle_image_url}" alt="${wine1.wine_name}" class="comparison-wine-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />`
+                                : ''}
+                            ${wine1.bottle_image_url 
+                                ? `<i class="fas fa-wine-bottle comparison-wine-icon" style="display: none;"></i>`
+                                : `<i class="fas fa-wine-bottle comparison-wine-icon"></i>`}
+                            <h3 class="comparison-wine-name">${wine1.wine_name || 'Unknown Wine'}</h3>
+                            <div class="comparison-wine-producer">${wine1.wine_producer || 'Unknown Producer'}</div>
+                        </div>
+                        <div class="comparison-details">
+                            ${fieldsToCompare.map(field => {
+                                const value1 = field.extractor(wine1);
+                                const value2 = field.extractor(wine2);
+                                const isDifferent = value1 !== value2;
+                                
+                                return `
+                                    <div class="comparison-detail-item">
+                                        <div class="comparison-detail-label">
+                                            ${field.label}
+                                        </div>
+                                        <div class="comparison-detail-value ${isDifferent ? 'different' : 'same'}">
+                                            ${value1}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    <div class="comparison-wine">
+                        <div class="comparison-wine-header">
+                            ${wine2.bottle_image_url 
+                                ? `<img src="${wine2.bottle_image_url}" alt="${wine2.wine_name}" class="comparison-wine-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />`
+                                : ''}
+                            ${wine2.bottle_image_url 
+                                ? `<i class="fas fa-wine-bottle comparison-wine-icon" style="display: none;"></i>`
+                                : `<i class="fas fa-wine-bottle comparison-wine-icon"></i>`}
+                            <h3 class="comparison-wine-name">${wine2.wine_name || 'Unknown Wine'}</h3>
+                            <div class="comparison-wine-producer">${wine2.wine_producer || 'Unknown Producer'}</div>
+                        </div>
+                        <div class="comparison-details">
+                            ${fieldsToCompare.map(field => {
+                                const value1 = field.extractor(wine1);
+                                const value2 = field.extractor(wine2);
+                                const isDifferent = value1 !== value2;
+                                
+                                return `
+                                    <div class="comparison-detail-item">
+                                        <div class="comparison-detail-label">
+                                            ${field.label}
+                                        </div>
+                                        <div class="comparison-detail-value ${isDifferent ? 'different' : 'same'}">
+                                            ${value2}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+
+                // Add narrative summary
+                this.renderNarrativeSummary(wine1, wine2);
+            }
+
+            inferBody(wine) {
+                const type = (wine.wine_type || '').toLowerCase();
+                const desc = (wine.wine_description || '').toLowerCase();
+                const combined = `${type} ${desc}`;
+
+                if (combined.includes('full body') || combined.includes('fuller body') || combined.includes('bold') || combined.includes('robust')) {
+                    return 'Full';
+                }
+                if (combined.includes('medium body') || combined.includes('medium-bodied')) {
+                    return 'Medium';
+                }
+                if (type.includes('rosso') && !combined.includes('light')) {
+                    return 'Medium-Full';
+                }
+                if (type.includes('bianco') || type.includes('rosato') || type.includes('bollicine')) {
+                    if (combined.includes('rich') || combined.includes('oak')) {
+                        return 'Medium';
+                    }
+                    return 'Light-Medium';
+                }
+                return 'Medium';
+            }
+
+            inferAcidity(wine) {
+                const type = (wine.wine_type || '').toLowerCase();
+                const desc = (wine.wine_description || '').toLowerCase();
+                const combined = `${type} ${desc}`;
+
+                if (combined.includes('bright acidity') || combined.includes('lively acidity') || combined.includes('crisp') || combined.includes('fresh')) {
+                    return 'High';
+                }
+                if (combined.includes('soft acidity') || combined.includes('low acidity') || combined.includes('round')) {
+                    return 'Low';
+                }
+                if (type.includes('bianco') || type.includes('bollicine')) {
+                    return 'Medium-High';
+                }
+                if (type.includes('rosso')) {
+                    return 'Medium';
+                }
+                return 'Medium';
+            }
+
+            inferStyle(wine) {
+                const type = (wine.wine_type || '').toLowerCase();
+                const desc = (wine.wine_description || '').toLowerCase();
+                const category = (wine.category || '').toLowerCase();
+                const combined = `${type} ${desc} ${category}`;
+
+                if (combined.includes('fresh') || combined.includes('crisp') || combined.includes('light')) {
+                    return 'Fresh';
+                }
+                if (combined.includes('elegant') || combined.includes('refined') || combined.includes('delicate')) {
+                    return 'Elegant';
+                }
+                if (combined.includes('structured') || combined.includes('bold') || combined.includes('powerful') || combined.includes('full body')) {
+                    return 'Structured';
+                }
+                if (combined.includes('bold') || combined.includes('rich') || combined.includes('intense')) {
+                    return 'Bold';
+                }
+                if (type.includes('bollicine')) {
+                    return 'Elegant';
+                }
+                if (type.includes('rosso')) {
+                    return 'Structured';
+                }
+                if (type.includes('bianco')) {
+                    return 'Fresh';
+                }
+                return 'Balanced';
+            }
+
+            inferDrinkability(wine) {
+                const type = (wine.wine_type || '').toLowerCase();
+                const desc = (wine.wine_description || '').toLowerCase();
+                const combined = `${type} ${desc}`;
+
+                if (combined.includes('young') || combined.includes('fresh') || type.includes('bollicine') || type.includes('bianco')) {
+                    return 'Drink Now';
+                }
+                if (combined.includes('age') || combined.includes('vintage') || combined.includes('cellar')) {
+                    return 'Age-Worthy';
+                }
+                if (type.includes('rosso') && (combined.includes('reserve') || combined.includes('riserva'))) {
+                    return 'Can Age';
+                }
+                return 'Ready to Drink';
+            }
+
+            renderNarrativeSummary(wine1, wine2) {
+                // Remove existing narrative if any
+                const existingNarrative = document.getElementById('comparisonNarrative');
+                if (existingNarrative) {
+                    existingNarrative.remove();
+                }
+
+                // Create narrative container
+                const narrative = document.createElement('div');
+                narrative.id = 'comparisonNarrative';
+                narrative.className = 'comparison-narrative';
+                
+                const summary = this.generateSommelierSummary(wine1, wine2);
+                narrative.innerHTML = `
+                    <h3 class="narrative-title">Sommelier's Perspective</h3>
+                    <p class="narrative-text">${summary}</p>
+                `;
+
+                // Insert after comparison grid
+                const grid = document.getElementById('comparisonGrid');
+                if (grid && grid.parentNode) {
+                    grid.parentNode.insertBefore(narrative, grid.nextSibling);
+                } else {
+                    console.error('Comparison grid element not found for narrative insertion');
+                }
+            }
+
+            generateSommelierSummary(wine1, wine2) {
+                const region1 = wine1.region || '';
+                const region2 = wine2.region || '';
+                const type1 = (wine1.wine_type || '').toLowerCase();
+                const type2 = (wine2.wine_type || '').toLowerCase();
+                const style1 = this.inferStyle(wine1);
+                const style2 = this.inferStyle(wine2);
+                const body1 = this.inferBody(wine1);
+                const body2 = this.inferBody(wine2);
+                const varietal1 = wine1.varietals || '';
+                const varietal2 = wine2.varietals || '';
+
+                let summary = '';
+
+                // Character differences
+                if (style1 !== style2) {
+                    summary += `While ${wine1.wine_name} presents a ${style1.toLowerCase()} character, ${wine2.wine_name} offers a more ${style2.toLowerCase()} profile. `;
+                } else {
+                    summary += `Both wines share a ${style1.toLowerCase()} character, though they express it differently. `;
+                }
+
+                // Body comparison
+                if (body1 !== body2) {
+                    summary += `In terms of body, ${wine1.wine_name} is ${body1.toLowerCase()}, making it ${body1 === 'Full' ? 'ideal for heartier dishes' : body1 === 'Light-Medium' ? 'perfect for lighter fare' : 'versatile with many foods'}, while ${wine2.wine_name}'s ${body2.toLowerCase()} body ${body2 === 'Full' ? 'pairs beautifully with rich, robust flavors' : body2 === 'Light-Medium' ? 'shines with delicate dishes' : 'offers great flexibility'}. `;
+                }
+
+                // Regional context
+                if (region1 !== region2 && region1 && region2) {
+                    summary += `${region1} and ${region2} bring distinct terroir expressions: ${wine1.wine_name} reflects its ${region1} origins, while ${wine2.wine_name} showcases ${region2}'s unique character. `;
+                }
+
+                // Grape variety context
+                if (varietal1 && varietal2 && varietal1 !== varietal2) {
+                    const mainVarietal1 = varietal1.split(',')[0].trim();
+                    const mainVarietal2 = varietal2.split(',')[0].trim();
+                    if (mainVarietal1 !== mainVarietal2) {
+                        summary += `The ${mainVarietal1} in ${wine1.wine_name} versus the ${mainVarietal2} in ${wine2.wine_name} creates distinct flavor profiles. `;
+                    }
+                }
+
+                // Contextual recommendations
+                summary += type1.includes('bollicine') || type2.includes('bollicine') 
+                    ? `For celebratory moments or as an aperitivo, the sparkling option brings effervescence and elegance. ` 
+                    : '';
+                
+                if (type1.includes('rosso') && type2.includes('bianco')) {
+                    summary += `${wine1.wine_name} would complement red meats and aged cheeses, while ${wine2.wine_name} pairs beautifully with seafood, poultry, and lighter pasta dishes. `;
+                } else if (type1.includes('bianco') && type2.includes('rosso')) {
+                    summary += `${wine1.wine_name} pairs beautifully with seafood, poultry, and lighter pasta dishes, while ${wine2.wine_name} would complement red meats and aged cheeses. `;
+                }
+
+                return summary.trim() || 'Both wines offer distinct expressions worth exploring. Consider your meal pairing and personal preference when choosing between them.';
+            }
+
+            getFieldValue(wine, field) {
+                const value = wine[field.key];
+                if (field.key === 'organic') {
+                    return value === true || value === 'true' || value === 'True';
+                }
+                return value;
+            }
+
+            swapWines() {
+                if (!this.selectedWines[0] || !this.selectedWines[1]) {
+                    console.warn('Cannot swap wines: one or both wines are missing');
+                    return;
+                }
+                [this.selectedWines[0], this.selectedWines[1]] = [this.selectedWines[1], this.selectedWines[0]];
+                this.renderWineSlot(0, this.selectedWines[0]);
+                this.renderWineSlot(1, this.selectedWines[1]);
+                this.renderComparison();
+            }
+
+            backToSelection() {
+                this.hideComparison();
+            }
+
+            resetComparison() {
+                this.selectedWines = [null, null];
+                this.removeWine(0);
+                this.removeWine(1);
+                this.hideComparison();
+            }
+
+            showError(message) {
+                alert(message);
+            }
+        }
+
+        // Hide mobile overlay immediately on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            if (mobileOverlay) {
+                mobileOverlay.classList.remove('visible');
+            }
+            const mobileSideMenu = document.getElementById('mobileSideMenu');
+            if (mobileSideMenu) {
+                mobileSideMenu.classList.remove('open');
+            }
+            document.body.classList.remove('mobile-menu-open');
+        });
+
+        // Also hide overlay immediately (before DOMContentLoaded)
+        (function() {
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            if (mobileOverlay) {
+                mobileOverlay.classList.remove('visible');
+            }
+            const mobileSideMenu = document.getElementById('mobileSideMenu');
+            if (mobileSideMenu) {
+                mobileSideMenu.classList.remove('open');
+            }
+            if (document.body) {
+                document.body.classList.remove('mobile-menu-open');
+            }
+        })();
+
+        // Initialize
+        const wineComparison = new WineComparison();
+    </script>
+</body>
+</html>
+
