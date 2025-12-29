@@ -21,19 +21,21 @@
     }
 }
 
-/* Luxury loading overlay */
+/* Luxury loading overlay - mostra l'index come background */
 .loading-overlay {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at 20% 80%, rgba(212,175,55,0.06) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(212,175,55,0.06) 0%, transparent 50%),
-                linear-gradient(var(--black) 0%, var(--charcoal) 100%);
+    /* Overlay semi-trasparente scuro per mantenere leggibilità */
+    background: rgba(10, 10, 10, 0.65);
+    /* Blur leggero per effetto elegante */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
     opacity: 1;
-    transition: opacity 500ms ease;
+    transition: opacity 500ms ease, backdrop-filter 500ms ease;
 }
 
 .loading-overlay.is-hidden {
@@ -5333,6 +5335,16 @@ body:not(.home-page) .luxury-container {
     z-index: 1;
 }
 
+/* Effetto luminoso ancora più intenso al hover */
+#map svg path.leaflet-interactive:hover,
+#mobileMap svg path.leaflet-interactive:hover {
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 1)) 
+            drop-shadow(0 0 16px rgba(212, 175, 55, 0.9)) 
+            drop-shadow(0 0 24px rgba(212, 175, 55, 0.7))
+            drop-shadow(0 0 32px rgba(212, 175, 55, 0.5))
+            drop-shadow(0 0 40px rgba(212, 175, 55, 0.3));
+}
+
 @keyframes borderFlow {
     0% {
         filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));
@@ -5410,10 +5422,11 @@ body:not(.home-page) .luxury-container {
     backdrop-filter: blur(10px);
     padding: 0.75rem 1.25rem;
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(212, 175, 55, 0.3);
     z-index: 2000;
     display: none;
-    border: 1px solid rgba(212, 175, 55, 0.4);
+    border: 1px solid rgba(212, 175, 55, 0.6);
     pointer-events: none;
     font-family: var(--font-heading);
     font-size: 0.95rem;
@@ -5424,6 +5437,11 @@ body:not(.home-page) .luxury-container {
     white-space: nowrap;
     animation: tooltipFadeIn 0.2s ease;
     transform: translateX(-50%);
+    /* Effetto luminoso intenso per il testo */
+    text-shadow: 0 0 10px rgba(212, 175, 55, 1),
+                 0 0 20px rgba(212, 175, 55, 0.8),
+                 0 0 30px rgba(212, 175, 55, 0.6),
+                 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 @keyframes tooltipFadeIn {
@@ -7586,8 +7604,11 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         font-weight: 600;
         color: var(--gold, #D4AF37);
         font-family: var(--font-body);
-        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8),
-                     0 0 8px rgba(0, 0, 0, 0.6);
+        /* Effetto luminoso intenso per il testo */
+        text-shadow: 0 0 10px rgba(212, 175, 55, 1),
+                     0 0 20px rgba(212, 175, 55, 0.8),
+                     0 0 30px rgba(212, 175, 55, 0.6),
+                     0 2px 4px rgba(0, 0, 0, 0.9);
         white-space: nowrap;
         background: transparent !important;
         padding: 0;
@@ -9878,4 +9899,33 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         font-size: var(--fs-600) !important;
         margin-bottom: var(--space-sm);
     }
+}
+
+/* Compare Wines Button Styles */
+.compare-wines-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.compare-wines-btn i {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.compare-wines-btn:hover i,
+.compare-wines-btn:active i {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.compare-wines-btn:hover {
+    background: rgba(212, 175, 55, 0.15) !important;
+    border-color: var(--gold) !important;
+    transform: translateY(-2px);
+}
+
+.compare-wines-btn:active {
+    transform: translateY(0) scale(0.97);
 }
