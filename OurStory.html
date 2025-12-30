@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gran Caffè L'Aquila - Our Story</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+        :root {
+            --bg-paper: #FDFBF7;
+            --text-dark: #1a1a1a;
+            --brand-red: #8B0000;
+            --gold: #C5A059;
+            --font-head: 'Cinzel', serif;
+            --font-body: 'Cormorant', serif;
+        }
+
+        /* Day/Night Theme Support */
+        :root[data-theme="night"] {
+            --bg-paper: #1a1a1a;
+            --text-dark: #F5F5F0;
+            --brand-red: #C5A059;
+            --gold: #D4AF37;
+        }
+
+        :root[data-theme="day"] {
+            --bg-paper: #FDFBF7;
+            --text-dark: #1a1a1a;
+            --brand-red: #8B0000;
+            --gold: #C5A059;
+        }
+
+        /* Night Theme Styles */
+        :root[data-theme="night"] body {
+            background-color: #0a0a0a;
+        }
+
+        :root[data-theme="night"] .menu-sheet {
+            background-color: var(--bg-paper);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        :root[data-theme="night"] .menu-sheet::before {
+            border-color: var(--gold);
+        }
+
+        :root[data-theme="night"] header {
+            border-bottom-color: rgba(212, 175, 55, 0.3);
+        }
+
+        :root[data-theme="night"] h1,
+        :root[data-theme="night"] h2 {
+            color: var(--gold);
+        }
+
+        :root[data-theme="night"] .subhead,
+        :root[data-theme="night"] .story-content {
+            color: rgba(245, 245, 240, 0.9);
+        }
+
+        /* Day Theme Styles */
+        :root[data-theme="day"] body {
+            background-color: #e0e0e0;
+        }
+
+        :root[data-theme="day"] .menu-sheet {
+            background-color: var(--bg-paper);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        :root[data-theme="day"] .menu-sheet::before {
+            border-color: var(--brand-red);
+        }
+
+        :root[data-theme="day"] header {
+            border-bottom-color: #ccc;
+        }
+
+        :root[data-theme="day"] h1,
+        :root[data-theme="day"] h2 {
+            color: var(--brand-red);
+        }
+
+        :root[data-theme="day"] .subhead {
+            color: #555;
+        }
+
+        :root[data-theme="day"] .story-content {
+            color: #333;
+        }
+
+        body {
+            background-color: #e0e0e0;
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-dark);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .menu-sheet {
+            background-color: var(--bg-paper);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        /* Bordo decorativo */
+        .menu-sheet::before {
+            content: "";
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 2px solid var(--brand-red);
+            pointer-events: none;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-family: var(--font-head);
+            color: var(--brand-red);
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .subhead {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+            color: #555;
+            margin-top: 5px;
+            font-family: 'Cormorant', serif;
+            font-weight: 400;
+        }
+
+        /* Story Content */
+        .story-content {
+            font-family: var(--font-body);
+            font-size: clamp(1rem, 1.3vw, 1.15rem);
+            line-height: 1.8;
+            color: var(--text-dark);
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        .story-content p {
+            margin-bottom: 25px;
+        }
+
+        .story-content p:first-child {
+            margin-top: 0;
+        }
+
+        .story-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(145deg, rgba(26, 26, 26, 0.7), rgba(10, 10, 10, 0.9));
+            color: var(--gold);
+            text-decoration: none;
+            font-family: var(--font-head);
+            font-size: clamp(0.9rem, 1.2vw, 1rem);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 30px;
+        }
+
+        .back-button:hover {
+            transform: translateX(-3px);
+            background: linear-gradient(145deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            border-color: var(--gold);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+        }
+
+        .back-button i {
+            font-size: 0.9em;
+        }
+
+        :root[data-theme="day"] .back-button {
+            background: linear-gradient(145deg, rgba(245, 245, 240, 0.9), rgba(250, 250, 245, 0.95));
+            border-color: rgba(212, 175, 55, 0.3);
+            color: var(--brand-red);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        :root[data-theme="day"] .back-button:hover {
+            background: linear-gradient(145deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            border-color: var(--gold);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-sheet {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: clamp(2rem, 5vw, 2.5rem);
+            }
+            .story-content {
+                text-align: left;
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu-sheet">
+        <header>
+            <h1>Gran Caffè L'Aquila</h1>
+            <div class="subhead">Our Story</div>
+        </header>
+
+        <div class="story-content">
+            <p>
+                Gran Caffe L'Aquila was a landmark cafe located on Piazza Duomo in the capital city of the Abruzzo region. In 2007 Gran Caffe L'Aquila won cafe of the year for all of Italy, but was then tragically damaged in the devastating earthquake of 2009 which destroyed the city.
+            </p>
+            <p>
+                In 2012 Italian gelato champion Stefano Biasini met Local award winning restaurateur Riccardo Longo which led to the rebirth of one of Italy's most beloved cafes in Philadelphia.
+            </p>
+            <p>
+                The entire restaurant was designed and built in Italy and shipped over for installation. After 3 years of design and build out the most authentic Italian cafe in America was opened on December 24th 2014. The 1st floor is an authentic Italian bar and the second floor features the restaurant, wine bar, cultural and language school, as well as the coffee and gelato labs. Now also featuring an online market with products of excellence from Italy.
+            </p>
+        </div>
+
+        <div class="button-container">
+            <a href="./index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <script>
+        // Funzione per applicare il tema
+        function applyTheme() {
+            const dayMode = localStorage.getItem('dayMode');
+            // Default a 'day' (light mode) se non è stato salvato alcun valore
+            const isDayMode = dayMode === null ? true : dayMode === 'true';
+            document.documentElement.setAttribute('data-theme', isDayMode ? 'day' : 'night');
+            // Salva il valore di default se non esiste
+            if (dayMode === null) {
+                localStorage.setItem('dayMode', 'true');
+            }
+        }
+
+        // Applica il tema all'avvio
+        applyTheme();
+
+        // Ascolta i cambiamenti del tema
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'dayMode') {
+                applyTheme();
+            }
+        });
+
+        // Polling per verificare cambiamenti del tema
+        setInterval(function() {
+            const currentDayMode = localStorage.getItem('dayMode') === 'true';
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const expectedTheme = currentDayMode ? 'day' : 'night';
+            
+            if (currentTheme !== expectedTheme) {
+                applyTheme();
+            }
+        }, 100);
+    </script>
+
+</body>
+</html>
+

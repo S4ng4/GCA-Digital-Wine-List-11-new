@@ -3817,7 +3817,7 @@ function initInteractiveMap() {
                     href: null
                 },
                 { 
-                    name: 'Ala Carte Menu', 
+                    name: '\u00C0 la Carte Menu', 
                     action: () => {
                         window.location.href = './Ala Carte 11-23-25.html';
                     },
@@ -3829,6 +3829,13 @@ function initInteractiveMap() {
                         window.location.href = './WineByTheGlass.html';
                     },
                     href: './WineByTheGlass.html'
+                },
+                { 
+                    name: 'Our Story', 
+                    action: () => {
+                        window.location.href = './OurStory.html';
+                    },
+                    href: './OurStory.html'
                 }
             ];
             
