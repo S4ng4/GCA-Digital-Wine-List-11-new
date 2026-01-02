@@ -3,410 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Gran Caffè L'Aquila - Wine Collection</title>
+    <title>Gran Caffè L'Aquila Philadelphia - Wine Collection</title>
     <!-- Bootstrap 5.3 CSS (HTTPS CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Font Awesome (HTTPS CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <!-- Google Fonts (HTTPS) -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Leaflet CSS (HTTPS CDN) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./css/style.css">
+    <style>
+        /* Landing Page Specific Styles */
+        body.landing-page {
+            background-color: #0A0A0A;
+            color: var(--ivory);
+            overflow-x: hidden;
+        }
+
+        .landing-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .landing-logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .landing-logo-image {
+            max-width: 300px;
+            width: auto;
+            height: auto;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .landing-hero {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 80px);
+            margin-top: 80px;
+            overflow: hidden;
+        }
+
+        .landing-hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .landing-hero-glass-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 10, 0.25);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            pointer-events: none;
+        }
+
+        .landing-hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.6) 40%, rgba(10, 10, 10, 0.3) 70%, transparent 100%);
+            padding: 3rem 2rem 2rem;
+            z-index: 2;
+        }
+
+        .landing-hero-text {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 0;
+            max-width: 800px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 3;
+        }
+
+        .landing-buttons-section {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 3rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .landing-button {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid var(--gold);
+            border-radius: 15px;
+            color: var(--ivory);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 1.25rem 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .landing-button.no-border {
+            border: none;
+        }
+
+        .landing-button:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .landing-button.no-border:hover {
+            border-color: transparent;
+        }
+
+        .landing-button.explore {
+            border-width: 2px;
+            border-color: var(--gold);
+        }
+
+        .landing-footer {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .landing-footer-text {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: rgba(245, 245, 240, 0.9);
+            letter-spacing: 1px;
+            margin: 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 767px) {
+            .landing-header {
+                padding: 1rem 1.25rem;
+            }
+
+            .landing-logo-image {
+                max-width: 200px;
+                max-height: 60px;
+            }
+
+            .landing-hero {
+                height: calc(100vh - 70px);
+                margin-top: 70px;
+            }
+
+            .landing-hero-text {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
+            }
+
+            .landing-buttons-section {
+                padding: 2rem 1rem;
+                gap: 1rem;
+                flex-direction: column;
+            }
+
+            .landing-button {
+                width: 100%;
+                min-width: auto;
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .landing-footer {
+                padding: 1.5rem 1rem;
+            }
+
+            .landing-footer-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .landing-hero-text {
+                font-size: 2.5rem;
+            }
+
+            .landing-buttons-section {
+                gap: 1.5rem;
+            }
+        }
+    </style>
 </head>
-<body class="home-page">
-    <!-- Luxury Loading Overlay -->
-    <div id="loadingOverlay" class="loading-overlay" aria-hidden="true">
-        <div class="loading-content">
-            <div class="loading-logo">
-                <img src="./image/gcaLogo.png" alt="Gran Caffè L'Aquila Logo" class="loading-logo-image">
-                <div class="countdown-ring" aria-hidden="true">
-                    <svg viewBox="0 0 120 120">
-                        <defs>
-                            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="#D4AF37" />
-                                <stop offset="100%" stop-color="#B8860B" />
-                            </linearGradient>
-                        </defs>
-                        <rect class="ring-bg" x="6" y="6" width="108" height="108" rx="12" ry="12" />
-                        <rect class="ring-fg" id="ringProgress" x="6" y="6" width="108" height="108" rx="12" ry="12" />
-                    </svg>
-                </div>
-                <div class="loading-message" id="loadingMessage" aria-live="polite">Loading…</div>
-            </div>
-            <div class="loading-extras">
-                <div class="gold-bokeh">
-                    <span></span><span></span><span></span><span></span><span></span><span></span>
-                </div>
-                <div class="italian-flag-bokeh">
-                    <span class="red-bokeh"></span>
-                    <span class="white-bokeh"></span>
-                    <span class="green-bokeh"></span>
-                </div>
-            </div>
+<body class="landing-page">
+    <!-- Header -->
+    <header class="landing-header">
+        <div class="landing-logo-section">
+            <img src="./image/logoFull.svg" alt="Gran Caffè L'Aquila Logo" class="landing-logo-image">
         </div>
-    </div>
-            
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-overlay" id="mobileOverlay"></div>
+    </header>
 
-    <!-- Mobile Side Menu -->
-    <nav class="mobile-side-menu" id="mobileSideMenu">
-        <div class="mobile-menu-header">
-            <button class="mobile-menu-close" id="mobileMenuClose">
-                <i class="fas fa-arrow-left"></i>
-                <span>Close</span>
-            </button>
-            <h2 class="mobile-menu-title">Gran Caffe Experience</h2>
+    <!-- Hero Section -->
+    <section class="landing-hero">
+        <img src="./image/secondFloor.png" alt="Gran Caffè L'Aquila Restaurant Interior" class="landing-hero-image">
+        <div class="landing-hero-glass-overlay"></div>
+        <div class="landing-hero-overlay">
+            <h2 class="landing-hero-text">THE JOURNEY STARTS HERE</h2>
         </div>
-        <div class="mobile-menu-categories" id="mobileMenuCategories">
-            <!-- Wine categories will be populated dynamically -->
-        </div>
-    </nav>
+    </section>
 
-    <!-- Search Popup for Menu -->
-    <div class="mobile-menu-search-popup" id="mobileMenuSearchPopup" style="display: none;">
-        <div class="mobile-menu-search-popup-overlay" id="mobileMenuSearchPopupOverlay"></div>
-        <div class="mobile-menu-search-popup-content">
-            <div class="mobile-menu-search-popup-header">
-                <h3 class="mobile-menu-search-popup-title">Search Wines</h3>
-                <button class="mobile-menu-search-popup-close" id="mobileMenuSearchPopupClose" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="mobile-menu-search-popup-body">
-                <div class="mobile-menu-search-popup-input-wrapper">
-                    <i class="fas fa-search mobile-menu-search-popup-icon"></i>
-                    <input type="text" id="mobileMenuSearchPopupInput" class="mobile-menu-search-popup-input" placeholder="Search wines by name, producer, varietal, or region..." autocomplete="off">
-                    <!-- Autocomplete Dropdown -->
-                    <div class="search-autocomplete-dropdown mobile-menu-search-popup-autocomplete" id="mobileMenuSearchPopupAutocomplete" style="display: none;">
-                        <div class="autocomplete-suggestions" id="mobileMenuSearchPopupSuggestions"></div>
-                    </div>
-                </div>
-                <!-- Quick Search Buttons in Popup -->
-                <div class="mobile-menu-search-popup-quick-buttons">
-                    <button class="mobile-menu-search-popup-quick-btn" id="mobileMenuSearchPopupOrganic" data-filter="organic">
-                        <span>Organic</span>
-                    </button>
-                    <button class="mobile-menu-search-popup-quick-btn" id="mobileMenuSearchPopupFancy" data-filter="fancy">
-                        <span>Feeling Fancy</span>
-                    </button>
-                    <button class="mobile-menu-search-popup-quick-btn compare-wines-btn" id="mobileMenuSearchPopupCompare" onclick="window.location.href='wine-comparison.html'" style="display: none;">
-                        <i class="fas fa-balance-scale"></i>
-                        <span>Compare Wines</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Buttons Section -->
+    <section class="landing-buttons-section">
+        <a href="./WineByTheGlass.html" class="landing-button no-border">Wine by the glass</a>
+        <a href="./wine-map.html" class="landing-button explore">EXPLORE BY<br>REGION</a>
+    </section>
 
-    <div class="main-layout">
-        <!-- Top Navigation -->
-        <nav class="top-nav">
-            <!-- Mobile Menu Button (visible on mobile only) -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
-                <span class="burger-line"></span>
-                <span class="burger-line"></span>
-                <span class="burger-line"></span>
-            </button>
-            
-            <div class="logo" onclick="window.location.href='./index.html'">
-                <img src="./image/gcaLogo.png" alt="Gran Caffè L'Aquila Logo" class="logo-image">
-            </div>
-            <div class="nav-title-section">
-                <h1 class="nav-title">Gran Caffè L'Aquila</h1>
-                <p class="nav-subtitle">Fine Wine Collection</p>
-            </div>
-            
-            <!-- Mobile Search Button (visible on mobile only) -->
-            <button class="mobile-search-btn" id="mobileSearchBtn" aria-label="Search">
-                <i class="fas fa-search"></i>
-            </button>
-        </nav>
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <p class="landing-footer-text">DISCOVER THE FULL WINE LIST SELECTING THE REGION AND THE STYLE</p>
+    </footer>
 
-        <!-- Mobile Search Bar (positioned below nav on mobile only) -->
-        <div class="mobile-search-bar-container" id="mobileSearchBarContainer">
-            <div class="mobile-search-wrapper">
-                <div class="mobile-search-input-wrapper">
-                    <i class="fas fa-search mobile-search-icon"></i>
-                    <input type="text" id="mobileSearchInput" name="search" class="mobile-search-input" placeholder="Search wines by name, producer, varietal, or region..." autocomplete="off">
-                    <!-- Mobile Autocomplete Dropdown -->
-                    <div class="search-autocomplete-dropdown mobile-autocomplete" id="mobileSearchAutocompleteDropdown" style="display: none;">
-                        <div class="autocomplete-suggestions" id="mobileAutocompleteSuggestions"></div>
-                    </div>
-                </div>
-                <!-- Quick Search Buttons -->
-                <div class="mobile-quick-search-buttons">
-                    <button class="mobile-quick-search-btn" id="mobileQuickSearchOrganic" data-filter="organic">
-                        <span>Organic</span>
-                    </button>
-                    <button class="mobile-quick-search-btn" id="mobileQuickSearchFancy" data-filter="fancy">
-                        <span>Feeling Fancy</span>
-                    </button>
-                    <button class="mobile-quick-search-btn compare-wines-btn" id="mobileCompareWinesBtn" onclick="window.location.href='wine-comparison.html'" style="display: none;">
-                        <i class="fas fa-balance-scale"></i>
-                        <span>Compare Wines</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Wine Type Selector (positioned below nav on mobile) -->
-        <div class="mobile-wine-type-selector" id="mobileWineTypeSelector">
-            <div class="mobile-wine-types-scroll" id="mobileWineTypesScroll">
-                <!-- Wine type chips will be populated dynamically -->
-            </div>
-        </div>
-
-        <!-- Mobile Wine Type Regions Popup -->
-        <div class="mobile-wine-type-popup" id="mobileWineTypePopup" style="display: none;">
-            <div class="mobile-wine-type-popup-overlay"></div>
-            <div class="mobile-wine-type-popup-header">
-                <h3 class="mobile-wine-type-popup-title" id="mobileWineTypePopupTitle">Select Filter</h3>
-                <button class="mobile-wine-type-popup-close" id="mobileWineTypePopupClose" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="mobile-wine-type-popup-tabs">
-                <button class="mobile-wine-type-popup-tab active" data-tab="regions" id="mobileWineTypePopupTabRegions">
-                    <span>Regions</span>
-                </button>
-                <button class="mobile-wine-type-popup-tab" data-tab="varietals" id="mobileWineTypePopupTabVarietals">
-                    <span>Varietals</span>
-                </button>
-            </div>
-            <div class="mobile-wine-type-popup-content">
-                <div class="mobile-wine-type-popup-section active" id="mobileWineTypePopupRegions">
-                    <!-- Regions will be populated dynamically -->
-                </div>
-                <div class="mobile-wine-type-popup-section" id="mobileWineTypePopupVarietals">
-                    <!-- Varietals will be populated dynamically -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Content Wrapper -->
-        <div class="content-wrapper">
-            <!-- Mobile Map and Wines Container (visible on mobile only) -->
-            <div class="mobile-map-wines-container" id="mobileMapWinesContainer">
-                <!-- Mobile Map View -->
-                <div class="mobile-map-view" id="mobileMapView">
-                    <div class="mobile-map-wrapper" id="mobileMapWrapper">
-                        <div id="mobileMap"></div>
-                        <div class="mobile-region-info" id="mobileRegionInfo" style="display: none;">
-                            <h3 id="mobileRegionName">Region Name</h3>
-                            <p><strong>Capital:</strong> <span id="mobileRegionCapital">-</span></p>
-                            <p><strong>Population:</strong> <span id="mobileRegionPopulation">-</span></p>
-                            <p><strong>Area:</strong> <span id="mobileRegionArea">-</span></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mobile Wines Cards Container (shown when region is clicked) -->
-                <div class="mobile-wines-cards-container" id="mobileWinesCardsContainer" style="display: none;">
-                    <div class="mobile-wines-cards-header">
-                        <div class="mobile-wines-cards-header-top">
-                            <button class="mobile-back-to-map-btn" id="mobileBackToMapBtn">
-                                <i class="fas fa-arrow-left"></i>
-                                <span>Back to Map</span>
-                            </button>
-                            <h2 class="mobile-wines-cards-title" id="mobileWinesCardsTitle">Wines</h2>
-                        </div>
-                        <div class="mobile-wines-cards-type-filters" id="mobileWinesCardsTypeFilters">
-                            <!-- Wine type filter buttons will be populated dynamically -->
-                        </div>
-                    </div>
-                    <div class="mobile-wines-cards-grid" id="mobileWinesCardsGrid">
-                        <!-- Wine cards will be populated dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mobile Views Container (hidden on mobile - map is shown instead) -->
-            <div class="mobile-views-container" id="mobileViewsContainer" style="display: none;">
-                <!-- Mobile Regions View -->
-                <div class="mobile-view mobile-view-active" id="mobileRegionsView">
-                    <div class="mobile-view-header">
-                        <button class="mobile-back-btn" id="mobileBackToCategories" style="display: none;">
-                            <i class="fas fa-chevron-left"></i>
-                            <span>Categories</span>
-                        </button>
-                        <h2 class="mobile-view-title" id="mobileRegionsTitle">Select Wine Category</h2>
-                    </div>
-                    <div class="mobile-regions-list" id="mobileRegionsList">
-                        <!-- Regions will be populated dynamically -->
-                    </div>
-                </div>
-
-                <!-- Mobile Wines View -->
-                <div class="mobile-view" id="mobileWinesView">
-                    <div class="mobile-region-background" id="mobileRegionBackground"></div>
-                    <div class="mobile-view-content">
-                        <div class="mobile-view-header">
-                            <button class="mobile-back-btn" id="mobileBackToRegions">
-                                <i class="fas fa-chevron-left"></i>
-                                <span>Regions</span>
-                            </button>
-                            <h2 class="mobile-view-title" id="mobileWinesTitle"></h2>
-                        </div>
-                        <div class="mobile-wines-list" id="mobileWinesList">
-                            <!-- Wines will be populated dynamically -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sidebar (desktop only) -->
-            <aside class="sidebar">
-                <div class="sidebar-title">Wine Categories</div>
-                <div class="wine-categories">
-                    <div class="wine-card-sidebar" data-type="ROSSO">
-                        <div class="wine-icon-sidebar">
-                            <img src="./image/glassRed.png" alt="Red wine icon">
-                        </div>
-                        <div class="wine-card-title">Red Wines</div>
-                        <div class="wine-card-subtitle">Bold & Complex</div>
-                        <div class="wine-card-count">Loading...</div>
-                    </div>
-
-                    <div class="wine-card-sidebar" data-type="BIANCO">
-                        <div class="wine-icon-sidebar">
-                            <img src="./image/glassWhite.png" alt="White wine icon">
-                        </div>
-                        <div class="wine-card-title">White Wines</div>
-                        <div class="wine-card-subtitle">Crisp & Refreshing</div>
-                        <div class="wine-card-count">Loading...</div>
-                    </div>
-
-                    <div class="wine-card-sidebar" data-type="ROSATO">
-                        <div class="wine-icon-sidebar">
-                            <img src="./image/glRose.png" alt="Rosé wine icon">
-                        </div>
-                        <div class="wine-card-title">Rosé Wines</div>
-                        <div class="wine-card-subtitle">Elegant & Delicate</div>
-                        <div class="wine-card-count">Loading...</div>
-                    </div>
-
-                    <div class="wine-card-sidebar" data-type="ARANCIONE">
-                        <div class="wine-icon-sidebar">
-                            <img src="./image/glArancione.png" alt="Orange wine icon">
-                        </div>
-                        <div class="wine-card-title">Orange Wines</div>
-                        <div class="wine-card-subtitle">Skin-Contact Whites</div>
-                        <div class="wine-card-count">Loading...</div>
-                    </div>
-
-                    <div class="wine-card-sidebar" data-type="BOLLICINE">
-                        <div class="wine-icon-sidebar">
-                            <img src="./image/glSparkling.png" alt="Sparkling wine icon">
-                        </div>
-                        <div class="wine-card-title">Sparkling</div>
-                        <div class="wine-card-subtitle">Celebratory & Vibrant</div>
-                        <div class="wine-card-count">Loading...</div>
-                    </div>
-
-                    <div class="wine-card-sidebar" data-type="NON ALCOLICO">
-                        <div class="wine-icon-sidebar">
-                            <img src="./image/gl00.png" alt="Non-alcoholic wine icon">
-                        </div>
-                        <div class="wine-card-title">Non-Alcoholic</div>
-                        <div class="wine-card-subtitle">Zero Alcohol Selection</div>
-                        <div class="wine-card-count">Loading...</div>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Regions Panel -->
-            <aside class="regions-panel" id="regionsPanel">
-                <div class="regions-panel-header">
-                    <div class="regions-panel-title" id="regionsPanelTitle">Regions</div>
-                    <div class="regions-panel-subtitle" id="regionsPanelSubtitle">Select a region</div>
-                </div>
-                <div class="regions-list" id="regionsList">
-                    <!-- Regions will be loaded here dynamically -->
-                </div>
-            </aside>
-
-            <!-- Main Content -->
-            <div style="display: flex; flex-direction: column; flex: 1; overflow: hidden; min-height: 0;" class="main-content-desktop">
-                <!-- Search Bar -->
-                <div class="search-bar-container">
-                    <div class="search-wrapper">
-                        <div class="search-input-wrapper">
-                            <input type="text" id="desktopSearchInput" name="search" class="search-input luxury-search-input" placeholder="Search wines by name, producer, varietal, or region..." autocomplete="off">
-                            <span class="active-filters-badge" id="activeFiltersBadge" style="display: none;"></span>
-                            <!-- Autocomplete Dropdown -->
-                            <div class="search-autocomplete-dropdown" id="searchAutocompleteDropdown" style="display: none;">
-                                <div class="autocomplete-suggestions" id="autocompleteSuggestions"></div>
-                            </div>
-                        </div>
-                        <button class="btn-filter luxury-filter-btn">Filter by Region</button>
-                        <button class="btn-filter luxury-filter-btn">Filter by Varietal</button>
-                    </div>
-                </div>
-                    
-                <!-- Map Container -->
-                <div class="map-wrapper" id="mapWrapper">
-                    <div id="map"></div>
-                    <div class="region-info" id="regionInfo">
-                        <h3 id="regionName">Region Name</h3>
-                        <p><strong>Capital:</strong> <span id="regionCapital">-</span></p>
-                        <p><strong>Population:</strong> <span id="regionPopulation">-</span></p>
-                        <p><strong>Area:</strong> <span id="regionArea">-</span></p>
-                        <p id="regionFact" class="region-fact">-</p>
-                        <p id="regionWineFacts" class="region-wine-facts">-</p>
-                    </div>
-                    
-                    <!-- Region name tooltip on hover -->
-                    <div class="region-tooltip" id="regionTooltip"></div>
-                </div>
-                
-                <!-- Wines List Container (replaces map when region is clicked) -->
-                <div class="wines-list-container" id="winesListContainer" style="display: none;">
-                    <div class="wines-list-header">
-                        <button class="btn-back-to-map" id="backToMapBtn">
-                            <i class="fas fa-arrow-left"></i> Back to Map
-                        </button>
-                        <div class="wines-list-title-section">
-                            <h2 class="wines-list-title" id="winesListTitle">Wines</h2>
-                            <p class="wines-list-subtitle" id="winesListSubtitle">Select a wine to view details</p>
-                        </div>
-                        <div class="wines-list-filters" id="winesListFilters" style="display: none;">
-                            <button class="wine-type-filter-btn active" data-wine-type="all">All</button>
-                            <button class="wine-type-filter-btn" data-wine-type="ROSSO">Red</button>
-                            <button class="wine-type-filter-btn" data-wine-type="BIANCO">White</button>
-                            <button class="wine-type-filter-btn" data-wine-type="ROSATO">Rosé</button>
-                            <button class="wine-type-filter-btn" data-wine-type="BOLLICINE">Sparkling</button>
-                            <button class="wine-type-filter-btn" data-wine-type="ARANCIONE">Orange</button>
-                        </div>
-                    </div>
-                    <div class="wines-grid-container" id="winesGridContainer">
-                        <!-- Wines will be loaded here dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Wines Panel -->
-            <aside class="wines-panel" id="winesPanel">
-                <div class="wines-panel-header">
-                    <div class="wines-panel-title" id="winesPanelTitle">Wines</div>
-                    <div class="wines-panel-subtitle" id="winesPanelSubtitle">Select a wine</div>
-                </div>
-                <div class="wines-list" id="winesList">
-                    <!-- Wines will be loaded here dynamically -->
-                </div>
-            </aside>
-        </div>
-    </div>
-
-    <!-- Leaflet JS (HTTPS CDN) -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <!-- Bootstrap 5.3 JS Bundle (HTTPS CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <!-- Custom JS -->
-    <script src="./js/wineries.js"></script>
-    <script src="./js/subcategory-helper.js"></script>
+    <!-- Scripts -->
     <script src="./js/main.js"></script>
 </body>
 </html>
+
