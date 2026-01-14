@@ -92,6 +92,9 @@
                     <button class="mobile-menu-search-popup-quick-btn" id="mobileMenuSearchPopupFancy" data-filter="fancy">
                         <span>Feeling Fancy</span>
                     </button>
+                    <button class="mobile-menu-search-popup-quick-btn" id="mobileMenuSearchPopupVarietals" data-filter="varietals">
+                        <span>Varietals</span>
+                    </button>
                     <button class="mobile-menu-search-popup-quick-btn compare-wines-btn" id="mobileMenuSearchPopupCompare" onclick="window.location.href='wine-comparison.html'" style="display: none;">
                         <i class="fas fa-balance-scale"></i>
                         <span>Compare Wines</span>
@@ -144,6 +147,9 @@
                     <button class="mobile-quick-search-btn" id="mobileQuickSearchFancy" data-filter="fancy">
                         <span>Feeling Fancy</span>
                     </button>
+                    <button class="mobile-quick-search-btn" id="mobileQuickSearchVarietals" data-filter="varietals">
+                        <span>Varietals</span>
+                    </button>
                     <button class="mobile-quick-search-btn compare-wines-btn" id="mobileCompareWinesBtn" onclick="window.location.href='wine-comparison.html'" style="display: none;">
                         <i class="fas fa-balance-scale"></i>
                         <span>Compare Wines</span>
@@ -195,11 +201,17 @@
                     <div class="mobile-map-wrapper" id="mobileMapWrapper">
                         <div id="mobileMap"></div>
                         <div class="mobile-region-info" id="mobileRegionInfo" style="display: none;">
+                            <button class="mobile-region-info-close" id="mobileRegionInfoClose" aria-label="Close region info">
+                                <i class="fas fa-times"></i>
+                            </button>
                             <h3 id="mobileRegionName">Region Name</h3>
                             <p><strong>Capital:</strong> <span id="mobileRegionCapital">-</span></p>
                             <p><strong>Population:</strong> <span id="mobileRegionPopulation">-</span></p>
                             <p><strong>Area:</strong> <span id="mobileRegionArea">-</span></p>
+                            <p id="mobileRegionFact" class="mobile-region-fact">-</p>
+                            <p id="mobileRegionWineFacts" class="mobile-region-wine-facts">-</p>
                         </div>
+                        
                     </div>
                 </div>
 
@@ -304,6 +316,9 @@
                         <div class="wine-card-title">Sparkling</div>
                         <div class="wine-card-subtitle">Celebratory & Vibrant</div>
                         <div class="wine-card-count">Loading...</div>
+                        <button class="wine-card-info-btn" onclick="window.location.href='./SparklingWineDoc.html'" title="Sparkling Wine Guide">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
                     </div>
 
                     <div class="wine-card-sidebar" data-type="NON ALCOLICO">
@@ -350,6 +365,9 @@
                 <div class="map-wrapper" id="mapWrapper">
                     <div id="map"></div>
                     <div class="region-info" id="regionInfo">
+                        <button class="region-info-close" id="regionInfoClose" aria-label="Close region info">
+                            <i class="fas fa-times"></i>
+                        </button>
                         <h3 id="regionName">Region Name</h3>
                         <p><strong>Capital:</strong> <span id="regionCapital">-</span></p>
                         <p><strong>Population:</strong> <span id="regionPopulation">-</span></p>
@@ -360,6 +378,12 @@
                     
                     <!-- Region name tooltip on hover -->
                     <div class="region-tooltip" id="regionTooltip"></div>
+                    
+                    <!-- Sparkling Wine Guide Icon -->
+                    <a href="./SparklingWineDoc.html" class="sparkling-guide-icon" id="sparklingGuideIcon" style="display: none;" title="Sparkling Wine Guide">
+                        <i class="fas fa-book-open"></i>
+                        <span class="sparkling-guide-text">Sparkling Guide</span>
+                    </a>
                 </div>
                 
                 <!-- Wines List Container (replaces map when region is clicked) -->

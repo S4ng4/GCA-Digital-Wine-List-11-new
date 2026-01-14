@@ -1891,6 +1891,13 @@ body:not(.home-page) .luxury-container {
     }
 }
 
+/* Show sparkling guide icon on tablet devices */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .sparkling-guide-icon {
+        display: flex !important;
+    }
+}
+
 /* Show wine-details-top-bar on tablet devices */
 @media (min-width: 768px) and (max-width: 1023px) {
     .wine-details-top-bar {
@@ -1914,6 +1921,17 @@ body:not(.home-page) .luxury-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+}
+
+/* Premium parallax effect - sticky positioning for desktop */
+@media (min-width: 768px) {
+    .wine-image-section {
+        position: sticky;
+        top: 80px;
+        align-self: flex-start;
+        z-index: 1;
+    }
 }
 
 .wine-image {
@@ -1950,18 +1968,58 @@ body:not(.home-page) .luxury-container {
     pointer-events: none;
 }
 
-/* Wine bottle image styles */
+/* Wine bottle image styles - Premium parallax effect */
 #wineBottleImage {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out, filter 0.1s ease-out;
+    will-change: transform, opacity, filter;
+    position: relative;
+    z-index: 1;
 }
 
 #wineBottleImage:hover {
     transform: scale(1.05);
+}
+
+/* Premium text readability - ensure text section has proper background */
+@media (min-width: 768px) {
+    .wine-info-section {
+        position: relative;
+        z-index: 2;
+        background: linear-gradient(
+            to right,
+            var(--charcoal) 0%,
+            rgba(26, 26, 26, 0.98) 5%,
+            rgba(26, 26, 26, 0.95) 100%
+        );
+        padding: 1.5rem;
+        border-radius: 12px;
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        box-shadow: -2px 0 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Enhanced text shadows for premium readability */
+    .wine-info-section .wine-name,
+    .wine-info-section .wine-description,
+    .wine-info-section .section-title {
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Ensure all text elements have good contrast */
+    .wine-info-section .info-item,
+    .wine-info-section .meta-item,
+    .wine-info-section .tasting-notes,
+    .wine-info-section .food-pairings,
+    .wine-info-section .producer-info {
+        background: rgba(26, 26, 26, 0.85);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
 }
 
 .wine-bottle {
@@ -2825,8 +2883,57 @@ body:not(.home-page) .luxury-container {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 10px;
     margin-bottom: 20px;
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 5px;
+}
+
+/* Custom scrollbar for filter-options */
+.filter-options::-webkit-scrollbar {
+    width: 8px;
+}
+
+.filter-options::-webkit-scrollbar-track {
+    background: rgba(26, 26, 26, 0.5);
+    border-radius: 4px;
+}
+
+.filter-options::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.5);
+    border-radius: 4px;
+}
+
+.filter-options::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.7);
+}
+
+.filter-search-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.filter-search-input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    background: rgba(26, 26, 26, 0.8);
+    border: 1.5px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.filter-search-input:focus {
+    outline: none;
+    border-color: rgba(212, 175, 55, 0.6);
+    background: rgba(26, 26, 26, 0.95);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.filter-search-input::placeholder {
+    color: rgba(245, 245, 240, 0.5);
 }
 
 .filter-option {
@@ -4534,6 +4641,42 @@ body:not(.home-page) .luxury-container {
     justify-content: center;
 }
 
+.wine-card-info-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--gold, #D4AF37);
+    font-size: 0.9rem;
+    z-index: 10;
+    padding: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.wine-card-info-btn:hover {
+    background: rgba(212, 175, 55, 0.3);
+    border-color: var(--gold, #D4AF37);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.wine-card-info-btn:active {
+    transform: scale(0.95);
+}
+
+.wine-card-info-btn i {
+    font-size: 0.85rem;
+}
+
 .wine-icon-sidebar img {
     width: 100%;
     height: 100%;
@@ -5467,16 +5610,57 @@ body:not(.home-page) .luxury-container {
     position: absolute;
     bottom: 1.75rem;
     left: 1.75rem;
-    background: rgba(26, 26, 26, 0.98);
-    backdrop-filter: blur(15px);
+    background: rgba(26, 26, 26, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     padding: 1.5rem 1.75rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    padding-top: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(212, 175, 55, 0.1) inset;
     z-index: 1000;
-    max-width: 380px;
+    max-width: 420px;
     display: none;
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    border: 1px solid rgba(212, 175, 55, 0.25);
     border-left: 4px solid var(--gold);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.region-info.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.region-info-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: var(--gold);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    font-size: 0.875rem;
+}
+
+.region-info-close:hover {
+    background: rgba(212, 175, 55, 0.25);
+    border-color: rgba(212, 175, 55, 0.5);
+    transform: scale(1.1);
+}
+
+.region-info-close:active {
+    transform: scale(0.95);
 }
 
 .region-info h3 {
@@ -5517,6 +5701,37 @@ body:not(.home-page) .luxury-container {
     margin-top: 0.75rem !important;
 }
 
+/* Responsive styles for region info panel */
+@media (max-width: 767px) {
+    .region-info {
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        max-width: none;
+        padding: 1.25rem 1.5rem;
+        padding-top: 2.25rem;
+        border-radius: 12px;
+    }
+
+    .region-info-close {
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+    }
+
+    .region-info h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.875rem;
+    }
+
+    .region-info p {
+        font-size: 0.8125rem;
+        margin-bottom: 0.625rem;
+    }
+}
+
 /* Region tooltip */
 .region-tooltip {
     position: absolute;
@@ -5555,6 +5770,128 @@ body:not(.home-page) .luxury-container {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
     }
+}
+
+/* Sparkling Wine Guide Icon */
+.sparkling-guide-icon {
+    position: absolute;
+    bottom: 1.75rem;
+    right: 1.75rem;
+    background: linear-gradient(145deg, rgba(26, 26, 26, 0.98), rgba(10, 10, 10, 0.98));
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 0.875rem 1.25rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(212, 175, 55, 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-left: 4px solid var(--gold);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: sparklingIconFadeIn 0.4s ease-out;
+    cursor: pointer;
+}
+
+.sparkling-guide-icon i {
+    color: var(--gold);
+    font-size: 1.25rem;
+    transition: transform 0.3s ease;
+}
+
+.sparkling-guide-text {
+    font-family: var(--font-heading);
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.sparkling-guide-icon:hover {
+    background: linear-gradient(145deg, rgba(36, 36, 32, 0.98), rgba(20, 20, 18, 0.98));
+    border-color: rgba(212, 175, 55, 0.6);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(212, 175, 55, 0.3);
+    transform: translateY(-2px);
+}
+
+.sparkling-guide-icon:hover i {
+    transform: scale(1.1);
+}
+
+.sparkling-guide-icon:active {
+    transform: translateY(0);
+}
+
+@keyframes sparklingIconFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Mobile Sparkling Guide Icon */
+.mobile-sparkling-guide-icon {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    z-index: 1001;
+}
+
+.mobile-sparkling-guide-icon i {
+    font-size: 1.1rem;
+}
+
+.mobile-sparkling-guide-icon .sparkling-guide-text {
+    font-size: 0.8rem;
+}
+
+/* Sparkling Guide Icon inside wine card */
+.mobile-wine-card-sparkling-icon {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    z-index: 10;
+    animation: sparklingIconFadeIn 0.4s ease-out;
+}
+
+.mobile-wine-card-sparkling-icon i {
+    font-size: 1rem;
+}
+
+.mobile-wine-card-sparkling-icon .sparkling-guide-text {
+    font-size: 0.7rem;
+}
+
+/* Day mode styles for Sparkling Guide Icon */
+:root[data-theme="day"] .sparkling-guide-icon {
+    background: linear-gradient(145deg, rgba(253, 251, 247, 0.98), rgba(248, 245, 238, 0.98));
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15),
+                0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+:root[data-theme="day"] .sparkling-guide-icon .sparkling-guide-text,
+:root[data-theme="day"] .sparkling-guide-icon i {
+    color: #8B6914;
+}
+
+:root[data-theme="day"] .sparkling-guide-icon:hover {
+    background: linear-gradient(145deg, rgba(248, 245, 238, 0.98), rgba(243, 239, 228, 0.98));
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.2),
+                0 0 30px rgba(212, 175, 55, 0.25);
 }
 
 /* ==================== RESPONSIVE ==================== */
@@ -7127,19 +7464,25 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         justify-content: center;
         gap: 0.25rem; /* Ridotto da 0.35rem */
         padding: 0.5rem 0.35rem; /* Ridotto padding laterale per più spazio testo */
-        background: transparent;
-        border: 0.5px solid rgba(212, 175, 55, 0.2);
-        border-radius: 6px;
+        background: linear-gradient(145deg, rgba(26, 26, 26, 0.98), rgba(15, 15, 15, 1));
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 12px;
         cursor: pointer;
-        transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         width: 58px;
         min-height: 60px; /* Aumentato per permettere testo su più righe */
         position: relative;
-        overflow: visible; /* Cambiato da hidden a visible per non tagliare il testo */
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        animation: glow-border 7s ease-in-out infinite;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7),
+                    0 2px 8px rgba(0, 0, 0, 0.4);
+        box-sizing: border-box;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
     
     /* Assicura che il primo chip sia visibile */
@@ -7149,11 +7492,6 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         opacity: 1;
     }
     
-    .mobile-wine-type-chip:active {
-        transform: scale(0.96);
-        background: transparent;
-    }
-
     .mobile-wine-type-chip::before {
         content: '';
         position: absolute;
@@ -7163,20 +7501,35 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         height: 100%;
         background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent);
         transition: left 0.5s ease;
+        z-index: 2;
+    }
+
+    .mobile-wine-type-chip:active {
+        transform: scale(0.96) translateY(-2px);
+        box-shadow: 0 12px 32px rgba(212, 175, 55, 0.6),
+                    0 6px 16px rgba(212, 175, 55, 0.4),
+                    0 0 0 2px rgba(212, 175, 55, 0.2);
+        border-color: rgba(212, 175, 55, 0.6);
     }
 
     .mobile-wine-type-chip:active::before {
         left: 100%;
     }
 
+    .mobile-wine-type-chip:hover {
+        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4),
+                    0 3px 10px rgba(212, 175, 55, 0.2);
+        border-color: rgba(212, 175, 55, 0.4);
+    }
+
     .mobile-wine-type-chip.active {
-        background: rgba(212, 175, 55, 0.15);
-        transform: translateX(2px);
-        animation: none; /* Ferma l'animazione quando la chip è attiva */
-        border-color: rgba(212, 175, 55, 0.5);
-        box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25),
-                    0 2px 8px rgba(212, 175, 55, 0.15),
-                    0 2px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(0.95) translateY(-3px);
+        box-shadow: 0 16px 40px rgba(212, 175, 55, 0.7),
+                    0 8px 20px rgba(212, 175, 55, 0.5),
+                    0 0 0 3px rgba(212, 175, 55, 0.3),
+                    inset 0 0 30px rgba(212, 175, 55, 0.1);
+        border-color: rgba(212, 175, 55, 0.8);
+        background: linear-gradient(145deg, rgba(26, 26, 26, 0.98), rgba(30, 25, 15, 1));
     }
 
     .mobile-wine-type-icon {
@@ -7836,27 +8189,100 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
 
     .mobile-region-info {
         position: absolute;
-        bottom: 15px;
-        left: 15px;
-        background: linear-gradient(145deg, rgba(45, 45, 38, 0.9), rgba(22, 22, 20, 0.85));
-        padding: 1rem 1.25rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(26, 26, 26, 0.75);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        padding: 1.5rem 1.75rem;
+        padding-top: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6),
+                    0 0 0 1px rgba(212, 175, 55, 0.1) inset;
         z-index: 1000;
-        max-width: 280px;
-        backdrop-filter: blur(10px);
+        max-width: 85%;
+        max-height: 80vh;
+        overflow-y: auto;
+        border: 1px solid rgba(212, 175, 55, 0.25);
+        border-left: 4px solid var(--gold);
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(20px);
+        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: none;
+    }
+
+    .mobile-region-info.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateY(0);
+    }
+
+    .mobile-region-info-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(212, 175, 55, 0.15);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        color: var(--gold);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+        font-size: 0.875rem;
+    }
+
+    .mobile-region-info-close:hover {
+        background: rgba(212, 175, 55, 0.25);
+        border-color: rgba(212, 175, 55, 0.5);
+        transform: scale(1.1);
+    }
+
+    .mobile-region-info-close:active {
+        transform: scale(0.95);
     }
 
     .mobile-region-info h3 {
         color: var(--gold);
-        margin-bottom: 0.75rem;
+        margin-bottom: 1rem;
         font-size: 1.1rem;
         font-family: var(--font-heading);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        line-height: 1.3;
     }
 
     .mobile-region-info p {
-        color: rgba(245, 245, 240, 0.8);
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
+        color: rgba(245, 245, 240, 0.85);
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.6;
+    }
+
+    .mobile-region-info p strong {
+        color: var(--gold);
+        font-weight: 600;
+    }
+
+    .mobile-region-fact {
+        font-style: italic;
+        color: rgba(245, 245, 240, 0.75) !important;
+        font-size: 0.85rem !important;
+        margin-top: 1rem !important;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .mobile-region-wine-facts {
+        color: rgba(212, 175, 55, 0.9) !important;
+        font-size: 0.85rem !important;
+        font-weight: 500;
+        margin-top: 0.75rem !important;
     }
 
     /* Mobile Wines Cards Container - smooth transitions */
@@ -8394,14 +8820,114 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         margin-top: 0 !important;
     }
     
-    /* Improve mobile wine type selector transitions */
+    /* Improve mobile wine type selector transitions - Card effect for tablet */
     .mobile-wine-type-chip {
-        transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+        padding: 0.5rem 0.35rem;
+        background: linear-gradient(145deg, rgba(26, 26, 26, 0.98), rgba(15, 15, 15, 1));
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 58px;
+        min-height: 60px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7),
+                    0 2px 8px rgba(0, 0, 0, 0.4);
+        box-sizing: border-box;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .mobile-wine-type-chip::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent);
+        transition: left 0.5s ease;
+        z-index: 2;
+    }
+
+    .mobile-wine-type-chip:active {
+        transform: scale(0.96) translateY(-2px);
+        box-shadow: 0 12px 32px rgba(212, 175, 55, 0.6),
+                    0 6px 16px rgba(212, 175, 55, 0.4),
+                    0 0 0 2px rgba(212, 175, 55, 0.2);
+        border-color: rgba(212, 175, 55, 0.6);
+    }
+
+    .mobile-wine-type-chip:active::before {
+        left: 100%;
+    }
+
+    .mobile-wine-type-chip:hover {
+        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4),
+                    0 3px 10px rgba(212, 175, 55, 0.2);
+        border-color: rgba(212, 175, 55, 0.4);
     }
     
     .mobile-wine-type-chip.active {
-        transform: translateY(-1px) scale(1.02);
-        animation: none; /* Ferma l'animazione quando la chip è attiva */
+        transform: scale(0.95) translateY(-3px);
+        box-shadow: 0 16px 40px rgba(212, 175, 55, 0.7),
+                    0 8px 20px rgba(212, 175, 55, 0.5),
+                    0 0 0 3px rgba(212, 175, 55, 0.3),
+                    inset 0 0 30px rgba(212, 175, 55, 0.1);
+        border-color: rgba(212, 175, 55, 0.8);
+        background: linear-gradient(145deg, rgba(26, 26, 26, 0.98), rgba(30, 25, 15, 1));
+    }
+
+    .mobile-wine-type-icon {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-wine-type-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+        filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.3));
+    }
+
+    .mobile-wine-type-chip.active .mobile-wine-type-icon img {
+        filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+    }
+
+    .mobile-wine-type-name {
+        font-size: 0.5rem;
+        color: var(--gold);
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 0.2px;
+        white-space: normal;
+        line-height: 1.2;
+        max-width: 100%;
+        overflow: visible;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .mobile-wine-type-count {
+        font-size: 0.55rem;
+        color: var(--gold-dark);
+        font-weight: 400;
     }
 }
 
@@ -8532,6 +9058,76 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
     
     .mobile-wine-card-grid-price {
         font-size: 1rem;
+    }
+
+    /* Ensure mobile-wine-type-chip has proper layout on tablet */
+    .mobile-wine-type-chip {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+        padding: 0.5rem 0.35rem;
+        background: linear-gradient(145deg, rgba(26, 26, 26, 0.98), rgba(15, 15, 15, 1));
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 58px;
+        min-height: 60px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7),
+                    0 2px 8px rgba(0, 0, 0, 0.4);
+        box-sizing: border-box;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .mobile-wine-type-icon {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-wine-type-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+        filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.3));
+    }
+
+    .mobile-wine-type-chip.active .mobile-wine-type-icon img {
+        filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+    }
+
+    .mobile-wine-type-name {
+        font-size: 0.5rem;
+        color: var(--gold);
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 0.2px;
+        white-space: normal;
+        line-height: 1.2;
+        max-width: 100%;
+        overflow: visible;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .mobile-wine-type-count {
+        font-size: 0.55rem;
+        color: var(--gold-dark);
+        font-weight: 400;
     }
 }
 
@@ -9424,7 +10020,7 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
         min-height: 60px; /* Aumentato per permettere testo su più righe */
         padding: 0.5rem 0.35rem; /* Ridotto padding laterale */
         gap: 0.3rem;
-        overflow: visible; /* Assicura che il testo non sia tagliato */
+        overflow: hidden; /* Card effect con overflow hidden */
     }
     
     .mobile-wine-type-icon {
@@ -9617,15 +10213,17 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
     /* 9. Region-info card mobile con glassmorphism */
     .region-info,
     .mobile-region-info {
-        max-width: 78vw;
+        max-width: 85%;
         font-size: 0.875rem;
-        line-height: 1.45;
-        border-radius: 12px;
-        border: 0.5px solid rgba(212, 175, 55, 0.3);
-        border-left: 4px solid #d4af37;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        line-height: 1.6;
+        border-radius: 16px;
+        border: 1px solid rgba(212, 175, 55, 0.25);
+        border-left: 4px solid var(--gold);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6),
+                    0 0 0 1px rgba(212, 175, 55, 0.1) inset;
+        padding-top: 2.5rem;
     }
 
     /* 10. Tooltip 2025 */
@@ -9934,15 +10532,24 @@ body:has(.mobile-side-menu.open) .mobile-wines-cards-grid .mobile-wine-card-grid
 }
 
 :root[data-theme="day"] .mobile-wine-type-chip {
-    background: rgba(245, 245, 240, 0.6) !important;
+    background: linear-gradient(145deg, rgba(245, 245, 240, 0.98), rgba(235, 235, 230, 1)) !important;
     border-color: rgba(139, 105, 20, 0.3) !important;
     color: var(--text-primary, #1a1a1a) !important;
 }
 
-:root[data-theme="day"] .mobile-wine-type-chip:hover,
+:root[data-theme="day"] .mobile-wine-type-chip:hover {
+    box-shadow: 0 6px 20px rgba(139, 105, 20, 0.3),
+                0 3px 10px rgba(139, 105, 20, 0.15) !important;
+    border-color: rgba(139, 105, 20, 0.4) !important;
+}
+
 :root[data-theme="day"] .mobile-wine-type-chip.active {
-    background: rgba(212, 175, 55, 0.15) !important;
-    border-color: rgba(139, 105, 20, 0.5) !important;
+    background: linear-gradient(145deg, rgba(245, 245, 240, 0.98), rgba(250, 240, 200, 1)) !important;
+    border-color: rgba(139, 105, 20, 0.6) !important;
+    box-shadow: 0 16px 40px rgba(139, 105, 20, 0.5),
+                0 8px 20px rgba(139, 105, 20, 0.3),
+                0 0 0 3px rgba(139, 105, 20, 0.2),
+                inset 0 0 30px rgba(139, 105, 20, 0.08) !important;
     color: var(--brand-red, #8B0000) !important;
 }
 

@@ -340,7 +340,7 @@
         </div>
 
         <div style="text-align: center; margin: 40px 0 30px 0;">
-            <a href="./index.html" class="wine-list-button">Esplora la Wine List</a>
+            <a href="./wine-map.html" class="wine-list-button">Explore Wine List</a>
         </div>
     </div>
 
@@ -384,9 +384,15 @@
                 const response = await fetch('./data/wines.json');
                 const data = await response.json();
                 
-                // Filtra i vini che hanno wine_price_glass
+                // Filtra i vini che hanno wine_price_glass ed escludi i cocktail
                 const winesByGlass = data.wines.filter(wine => 
-                    wine.wine_price_glass && wine.wine_price_glass !== null && wine.wine_price_glass !== ''
+                    wine.wine_price_glass && 
+                    wine.wine_price_glass !== null && 
+                    wine.wine_price_glass !== '' &&
+                    wine.wine_type && 
+                    !wine.wine_type.toUpperCase().includes('COCKTAIL') &&
+                    wine.wine_producer && 
+                    !wine.wine_producer.toUpperCase().includes('HOUSE COCKTAIL')
                 );
 
                 if (winesByGlass.length === 0) {
@@ -406,9 +412,58 @@
                 };
 
                 winesByGlass.forEach(wine => {
-                    const type = wine.wine_type || 'BIANCO';
-                    if (winesByType[type]) {
-                        winesByType[type].push(wine);
+                    // Check both wine_type and subcategory for better matching
+                    const type = (wine.wine_type || '').toUpperCase();
+                    const subcat = (wine.subcategory || '').toUpperCase();
+                    
+                    // Match wine type - check in priority order to avoid misclassification
+                    let category = null;
+                    
+                    // Priority 1: Check for sparkling wines first (to avoid conflicts)
+                    if (type.includes('BOLLICINE') || type.includes('SPARKLING') || 
+                        subcat.includes('BOLLICINE') || subcat.includes('SPARKLING') || 
+                        subcat.includes('METODO CLASSICO') || subcat.includes('CHARMAT') || 
+                        subcat.includes('ANCESTRAL') || subcat.includes('MARTINOTTI')) {
+                        category = 'BOLLICINE';
+                    }
+                    // Priority 2: Check for non-alcoholic
+                    else if (type.includes('NON ALCOLICO') || type.includes('NON-ALCOHOLIC') || type.includes("0.0")) {
+                        category = 'NON ALCOLICO';
+                    }
+                    // Priority 3: Check for rosé wines
+                    else if (type.includes('ROSATO') || type.includes('ROSE') || type.includes('ROSY') ||
+                             subcat.includes('ROSATO') || subcat === 'ROSE' || subcat === 'ROSY') {
+                        category = 'ROSATO';
+                    }
+                    // Priority 4: Check for orange wines
+                    else if (type.includes('ARANCIONE') || type.includes('ORANGE') ||
+                             subcat.includes('ARANCIONE') || subcat === 'ORANGE') {
+                        category = 'ARANCIONE';
+                    }
+                    // Priority 5: Check for red wines (before white to avoid misclassification)
+                    else if (type.includes('ROSSO') || type.includes('RED') || 
+                             type.includes('AMARONE') || type.includes('BAROLO') || 
+                             type.includes('SUPERTUSCAN') || type.includes('SUPERIORE') || 
+                             type.includes('RIPASSO') ||
+                             subcat.includes('ROSSO') || subcat === 'RED') {
+                        category = 'ROSSO';
+                    }
+                    // Priority 6: Check for white wines
+                    else if (type.includes('BIANCO') || type.includes('WHITE') ||
+                             subcat.includes('BIANCO') || subcat === 'WHITE') {
+                        category = 'BIANCO';
+                    }
+                    // Priority 7: Check subcategory if wine_type is not clear
+                    else if (subcat.includes('ROSSO') || subcat === 'RED') {
+                        category = 'ROSSO';
+                    }
+                    else if (subcat.includes('BIANCO') || subcat === 'WHITE') {
+                        category = 'BIANCO';
+                    }
+                    // Default: skip if cannot determine (don't add to any category)
+                    
+                    if (category && winesByType[category]) {
+                        winesByType[category].push(wine);
                     }
                 });
 
